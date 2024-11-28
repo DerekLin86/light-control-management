@@ -2,6 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 
 import {FloorPlanService} from '../../services/floorPlan.service';
 
+import {Building} from '../../types/building'
+
 
 @Component({
   selector: 'app-floor-plan-config',
@@ -13,10 +15,12 @@ export class FloorPlanConfigComponent implements OnInit{
  private readonly floorPlanService = inject(FloorPlanService);
 
   ngOnInit(): void {
-    this.floorPlanService.fetchBuildingList().subscribe((buildingList: any) => {
-      console.log(buildingList);
-    })
+    this.fetchBuildingList();
   }
 
-
+  private fetchBuildingList() {
+    this.floorPlanService.fetchBuildingList().subscribe((buildingList: Building[]) => {
+      console.log(buildingList);
+    });
+  }
 }

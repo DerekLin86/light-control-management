@@ -3,6 +3,10 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
+// Customized color setting
+$primary-grey-color: #D9D9D9;
+$primary-text-grey-color: #757575;
+
 html {
   @include mat.theme((
     color: (
@@ -15,9 +19,8 @@ html {
   ));
 }/* You can add global styles to this file, and also import other style files */
 
-$primary-grey-color: #D9D9D9;
-
 body {margin: 0;}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

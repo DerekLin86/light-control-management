@@ -1,0 +1,28 @@
+@use '../../../styles' as global;
+
+@mixin selectedStyle {
+   .floor-plan.selected {
+    background-color: #697A98;
+    color: white;
+  }
+}
+
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  .floor-plan {
+    display: flex;
+    background-color: white;
+    border-radius: 1.25rem;
+    color: global.$primary-text-grey-color;
+    font-size: 1.25rem;
+    justify-content: center;
+    padding: .25rem .5rem;
+    width: 5rem;
+  }
+}
+
+@include selectedStyle();

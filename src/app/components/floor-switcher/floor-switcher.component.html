@@ -1,0 +1,9 @@
+@for (floorPlan of floorPlanList; track floorPlan; let index = $index) {
+  @if (floorPlan?.selected) {
+    <button mat-flat-button class="floor-plan selected">{{floorPlan.text}}</button>
+  } @else {
+    <button  mat-raised-button class="floor-plan"(click)="selectFloorPlan(index)">{{floorPlan.text}}</button>
+  }
+
+  <!-- <div class="floor-plan" [class.selected]="floorPlan?.selected">{{floorPlan.text}}</div> -->
+}

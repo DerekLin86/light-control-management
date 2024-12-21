@@ -3,6 +3,8 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
+$header-height: 4.5rem;
+
 // Customized color setting
 $primary-grey-color: #D9D9D9;
 $primary-text-grey-color: #757575;
@@ -23,4 +25,22 @@ body {margin: 0;}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// Angular Material
+.mat-mdc-icon-button {
+  height: 50px;
+  width: 50px;
+}
+
+mat-icon {
+  font-size: 1.875rem;
+  height: 30px;
+  width: 30px;
+}
+
+mat-divider  {
+  padding: .5rem 0;
+  width: 100%;
+}
 

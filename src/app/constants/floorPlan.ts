@@ -1,7 +1,7 @@
 import { timeInterval } from 'rxjs';
 import {FloorPlanData, OccupancyStatus, SensorStatus} from '../types/floorPlan'
 
-declare const DATA_NUMBER = 10;
+const DATA_NUMBER = 10;
 
 export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({length: DATA_NUMBER}, (_, i) => {
   return {

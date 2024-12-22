@@ -1,0 +1,73 @@
+@mixin collapse {
+  .collapse ::ng-deep {
+    thead > tr > th:not(:first-child), tbody tr > td:not(:first-child)  {
+      font-size: 0;
+      width: 0;
+      padding: 0;
+    }
+  }
+}
+
+:host {
+  display: flex;
+
+  .lighting-table {
+    box-shadow: 4px 4px 10px 0px #00000033;
+  }
+
+  .mat-mdc-table {
+    min-width: unset;
+  }
+
+  .zone-table ::ng-deep {
+    thead .mat-mdc-header-cell {
+      height: 3rem;
+      width: 6rem;
+    }
+    tbody .mat-mdc-cell {
+      width: 6rem;
+    }
+  }
+
+  table ::ng-deep {
+    white-space: nowrap;
+    overflow-y: scroll;
+    thead .mat-mdc-header-cell {
+      height: 3rem;
+      width: 6rem;
+    }
+    tbody .mat-mdc-cell {
+      width: 6rem;
+    }
+    th, td {
+      transition: width .5s linear, font-size .5s linear, padding .5s linear;
+    }
+  }
+
+  @include collapse();
+}
+
+table ::ng-deep .column-with-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    width: 1rem;
+    min-width: unset;
+  }
+}
+
+table.mat-mdc-table ::ng-deep {
+  thead .mat-mdc-header-cell, tbody .mat-mdc-cell {
+    &.column-large {
+      width: 11rem;
+    }
+
+    &.column-medium {
+      width: 8rem;
+    }
+  }
+}
+
+
+

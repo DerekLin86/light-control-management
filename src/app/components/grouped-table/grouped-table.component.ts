@@ -2,12 +2,13 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatButtonModule} from '@angular/material/button';
 
+import {LightStatusComponent} from '../light-status/light-status.component';
 import {MOCK_LIGHT_DATA} from '../../constants/floorPlan'
 import {FloorPlanData} from '../../types/floorPlan';
 
 @Component({
   selector: 'app-grouped-table',
-  imports: [ MatButtonModule, MatTableModule],
+  imports: [ MatButtonModule, MatTableModule, LightStatusComponent],
   standalone: true,
   templateUrl: './grouped-table.component.html',
   styleUrl: './grouped-table.component.scss',

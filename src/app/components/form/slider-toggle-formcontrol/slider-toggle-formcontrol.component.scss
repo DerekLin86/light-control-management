@@ -1,0 +1,9 @@
+.mat-accent.mat-mdc-slide-toggle-checked {
+  --mat-sys-primary: #57B37F;
+  --mdc-switch-selected-tracker-color: #57B37F;
+}
+
+:host {
+  display: flex;
+  justify-content: center;
+}

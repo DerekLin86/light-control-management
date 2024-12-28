@@ -1,6 +1,8 @@
 @mixin collapse {
   .collapse ::ng-deep {
-    thead > tr > th:not(:first-child), tbody tr > td:not(:first-child)  {
+    thead>tr>th:not(:first-child),
+      tbody tr>td:not(:first-child),
+      tbody tr>td:not(:first-child) app-slider-toggle-formcontrol {
       font-size: 0;
       width: 0;
       padding: 0;
@@ -40,6 +42,7 @@
       width: 6rem;
     }
     th, td {
+      text-align: center;
       transition: width .5s linear, font-size .5s linear, padding .5s linear;
     }
   }

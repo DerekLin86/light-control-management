@@ -1,8 +1,12 @@
-<!--<div class="menu-container">
-  <app-floor-switcher [floorPlanList]="floorPlanList"></app-floor-switcher>
-</div> -->
-
+<h2>Lighting Control</h2>
 <div class="main-container">
-  <app-floor-plan-switcher></app-floor-plan-switcher>
-  <app-grouped-table />
+  <app-floor-plan-switcher (selectedOptionEmit)="selectFloorPlan($event)"></app-floor-plan-switcher>
+  <div class="right-side-container">
+    @if (currentFloorPlan.length > 0) {
+    <span class="floor-plan-text">{{currentFloorPlan}}</span>
+    } @else {
+    <span class="floor-plan-text">?Ｆ</span>
+    }
+    <app-grouped-table />
+  </div>
 </div>

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, DestroyRef, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  DestroyRef,
+  inject,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -32,10 +40,14 @@ export class FloorPlanSwitcherComponent implements OnInit {
 
   filteredOptions$ = new BehaviorSubject<FloorPlan[]>([]);
   selectedOption$ = new BehaviorSubject<FloorPlan | null>(null);
+
   readonly selectedFloorPlan = new FormControl<string>('');
   readonly optionsSubject$ = new BehaviorSubject<FloorPlan[]>([]);
 
   private readonly floorPlanOptions: FloorPlan[] = [];
+
+  @Output()
+  selectedOptionEmit = new EventEmitter<FloorPlan | null>();
 
   ngOnInit() {
     this.fetchFloorPlan();
@@ -45,7 +57,7 @@ export class FloorPlanSwitcherComponent implements OnInit {
   selectOption(selectedtext: string) {
     const selectedOption = this.floorPlanOptions.find(option => option.label === selectedtext);
 
-    this.selectedOption$.next(selectedOption ?? null);
+    this.selectNewOption(selectedOption ?? null);
   }
 
   private fetchFloorPlan() {
@@ -73,9 +85,14 @@ export class FloorPlanSwitcherComponent implements OnInit {
       )
       .subscribe((filteredOptions: FloorPlan[]) => {
         if (filteredOptions.length === this.floorPlanOptions.length) {
-          this.selectedOption$.next(null);
+          this.selectNewOption(null);
         }
         this.filteredOptions$.next(filteredOptions);
       });
+  }
+
+  private selectNewOption(option: FloorPlan | null) {
+    this.selectedOption$.next(option);
+    this.selectedOptionEmit.emit(option);
   }
 }

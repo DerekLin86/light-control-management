@@ -2,7 +2,8 @@
 
 :host {
   display: flex;
-
+  flex-direction: column;
+    color: global.$primary-title-color;
   width: 100%;
 
   app-floor-plan-switcher {
@@ -27,5 +28,18 @@
     flex-wrap: nowrap;
     gap: 2rem;
     width: 100%;
+  }
+
+  .right-side-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .floor-plan-text {
+      color: global.$primary-grey-color;
+      font-size: 7.5rem;
+      line-height: 7.5rem;
+      font-weight: bold;
+    }
   }
 }

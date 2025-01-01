@@ -1,3 +1,8 @@
+export interface FloorPlan {
+  label: string;
+  planImageUrl: string;
+}
+
 export interface BasicZoneSetting {
   zone: string;
   description: string;
@@ -35,11 +40,11 @@ export interface FloorPlanData extends BasicZoneSetting {
   occupancy: OccupancySensor;
   indoorSensor: IndoorSensor;
   outdoorSensor: OutdorrSensor;
-};
+}
 
 export enum OccupancyStatus {
   OCC = 'OCC',
-  ACC = 'ACC'
+  ACC = 'ACC',
 }
 
 export enum SensorStatus {

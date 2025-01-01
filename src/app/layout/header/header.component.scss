@@ -1,8 +1,13 @@
 @use '../../../styles' as global;
 
 :host {
+  background-color: global.$parmary-color;
+    box-shadow: 0px 4px 10px 0px #0000000D;
   display: flex;
   height: global.$header-height;
-  box-shadow: 0px 4px 10px 0px #0000000D;
+  left: calc(global.$left-bar-width + 1rem + 4px);
+    position: fixed;
+    top: 0;
   width: 100%;
+  z-index: 999;
 }

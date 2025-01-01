@@ -4,8 +4,10 @@
 @use '@angular/material' as mat;
 
 $header-height: 4.5rem;
+$left-bar-width: 5rem;
 
 // Customized color setting
+$parmary-color: #ECECEC;
 $primary-grey-color: #D9D9D9;
 $primary-text-grey-color: #757575;
 
@@ -21,7 +23,10 @@ html {
   ));
 }/* You can add global styles to this file, and also import other style files */
 
-body {margin: 0;}
+body {
+  margin: 0;
+  background-color: $parmary-color;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

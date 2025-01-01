@@ -1,16 +1,19 @@
-@use '../styles.scss';
+@use '../styles.scss' as global;
 
 :host {
-  background-color: #ECECEC;
+  background-color: global.$parmary-color;
   display: flex;
 
   .right-side {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: calc(100% - global.$left-bar-width);
+      margin-left: global.$left-bar-width;
 
     .content-container {
-      padding: 1rem;
+      margin-top: global.$header-height;
+        padding: 1rem 2rem;
+        height: 100vh;
     }
   }
 }

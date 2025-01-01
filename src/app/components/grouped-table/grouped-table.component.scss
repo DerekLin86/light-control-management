@@ -6,6 +6,7 @@
       font-size: 0;
       width: 0;
       padding: 0;
+      margin-left: -1.5rem;
     }
   }
 }
@@ -25,9 +26,11 @@
     thead .mat-mdc-header-cell {
       height: 3rem;
       width: 6rem;
+      margin-left: unset;
     }
     tbody .mat-mdc-cell {
       width: 6rem;
+      margin-left: unset;
     }
   }
 
@@ -35,6 +38,7 @@
     white-space: nowrap;
     overflow-y: scroll;
     thead .mat-mdc-header-cell {
+      background-color: #D9D9D9;
       height: 3rem;
       width: 6rem;
     }

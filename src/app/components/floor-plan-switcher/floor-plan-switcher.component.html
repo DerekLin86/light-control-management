@@ -1,0 +1,16 @@
+<form class="floor-switcher">
+  <mat-form-field>
+    <mat-label>Select a Floor Plan</mat-label>
+    <input type="text" matInput [formControl]="selectedFloorPlan" [matAutocomplete]="auto"
+      placeholder="Select a Floor Plan">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectOption($event.option.value)">
+      @for (option of filteredOptions$ | async; track option) {
+      <mat-option [value]="option.label">{{option.label}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+@if (selectedOption$ | async) {
+<img class="floor-plan-image" [src]="(selectedOption$ |  async)?.planImageUrl">
+}

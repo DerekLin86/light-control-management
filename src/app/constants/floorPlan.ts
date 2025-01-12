@@ -36,7 +36,6 @@ export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({ length: DATA_NUMBER
 export const MOCK_FLOOR_PLAN_LIST: FloorPlan[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
   return {
     label: `${i + 1}F`,
-    planImageUrl:
-      'https://s3-alpha-sig.figma.com/img/1e7e/3216/f82efac9c42db4f0941253d2eae55498?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Oob96qRfsZMLhYB26oRmlnvhrt7Z-M2QwzRFhnYXAOXAAYIUlM5vPjkH5IzudEkn4RQRXQ~U6cyTlmfE-4Gj-3Dnvayp0NuCLTfBwpIlIiQjcNCXOlgFy3iXuOu04cx2W3wOX5LrRpABU7M5jkKs2fhgp67BjxZJW23YFEv4RAvJWh2gOePMHhwiD905wbbFoBSQrPiqvt3o2AxK1fPEC5Yja6vz5XFcEFhSFXzDvLNQsx3rlbHlVomYxGzBTvVCmqy6d6tQtJ3YJRH5wG60HcvZznik0dmswpXUyn22gnBdhPaBpID4i2a4-gqKEi-vHGHAqX71kmJtA~wz5LkCjg__',
+    planImageUrl: '/assets/images/floor-plan.png',
   };
 });

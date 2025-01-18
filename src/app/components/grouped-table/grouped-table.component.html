@@ -7,7 +7,8 @@
 
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
-      <td class="column-medium" mat-cell *matCellDef="let element">{{element.description}}</td>
+      <td class="column-medium description-col" mat-cell *matCellDef="let element" [matTooltip]="element.description">{{element.description}}
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="basicZoneColumn"></tr>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
@@ -12,6 +13,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
   imports: [
     MatButtonModule,
     MatTableModule,
+    MatTooltipModule,
     LightStatusComponent,
     SliderTootgleFormcontrolComponent,
   ],

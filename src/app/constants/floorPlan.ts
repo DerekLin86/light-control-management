@@ -6,7 +6,7 @@ const DATA_NUMBER = 10;
 export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
   return {
     zone: `ZONE ${i}`,
-    description: `Description ${i}`,
+    description: i === 2 ? 'A very loooooooooooooooooooooong description' : `Description ${i}`,
     lightting: {
       status: (i + 1) % 2 === 0,
       control: (i + 1) % 2 === 0,

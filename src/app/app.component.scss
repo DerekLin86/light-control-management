@@ -11,9 +11,10 @@
     margin-left: calc(global.$left-bar-width + 1rem);
 
     .content-container {
+      display: flex;
       margin-top: global.$header-height;
       padding: 1rem 2rem;
-      height: 100vh;
+      height: calc(100vh - global.$header-height);
     }
   }
 }

@@ -80,7 +80,7 @@
 
   table ::ng-deep {
     white-space: nowrap;
-    overflow-y: scroll;
+    overflow: scroll hidden;
     thead .mat-mdc-header-cell {
       background-color: #D9D9D9;
       color: global.$primary-text-grey-color;

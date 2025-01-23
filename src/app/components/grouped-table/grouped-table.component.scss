@@ -57,6 +57,7 @@
 
 :host {
   display: flex;
+  overflow: scroll hidden;
 
   .lighting-table {
     box-shadow: 4px 4px 10px 0px #00000033;
@@ -80,7 +81,7 @@
 
   table ::ng-deep {
     white-space: nowrap;
-    overflow: scroll hidden;
+    overflow: auto;
     thead .mat-mdc-header-cell {
       background-color: #D9D9D9;
       color: global.$primary-text-grey-color;
@@ -106,6 +107,7 @@
 
     .description-col {
       max-width: 20rem;
+      text-align: left;
     }
   }
 
@@ -118,6 +120,7 @@ table ::ng-deep .column-with-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: nowrap;
   .mat-mdc-button {
     color: global.$primary-text-grey-color;
     transform: rotate(180deg);

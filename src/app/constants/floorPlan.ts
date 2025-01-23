@@ -1,7 +1,7 @@
 import { FloorPlanData, OccupancyStatus, SensorStatus } from '../types/floorPlan';
 import { FloorPlan } from '../types/floorPlan';
 
-const DATA_NUMBER = 10;
+const DATA_NUMBER = 50;
 
 export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
   return {

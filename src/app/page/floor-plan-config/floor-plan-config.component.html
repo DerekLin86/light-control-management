@@ -1,5 +1,5 @@
 <div class="main-container">
-  <app-floor-plan-switcher (selectedOptionEmit)="selectFloorPlan($event)"></app-floor-plan-switcher>
+  <app-floor-plan-switcher (selectedOption)="selectFloorPlan($event)"></app-floor-plan-switcher>
   <div class="right-side-container">
     @if (currentFloorPlan.length > 0) {
     <span class="floor-plan-text">{{currentFloorPlan}}</span>

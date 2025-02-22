@@ -37,9 +37,7 @@ export class GroupedTableComponent implements OnInit {
 
   collapse = true;
 
-  ngOnInit() {
-    console.log(MOCK_LIGHT_DATA);
-  }
+  ngOnInit() {}
 
   expandColumn(groupElement: Element) {
     groupElement.classList.add('.');

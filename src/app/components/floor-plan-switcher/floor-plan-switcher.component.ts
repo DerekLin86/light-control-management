@@ -38,7 +38,7 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     // For demo
-    this.selectedOption$.next(MOCK_FLOOR_PLAN_LIST[0]);
+    this.selectNewOption(MOCK_FLOOR_PLAN_LIST[0]);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -50,5 +50,6 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
   selectNewOption(option: FloorPlan) {
     this.selectedOption$.next(option);
     this.selectedOption.emit(option);
+    this.selectedOptionEmit.emit(option);
   }
 }

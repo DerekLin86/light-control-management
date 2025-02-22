@@ -57,7 +57,7 @@
 
 :host {
   display: flex;
-  overflow: scroll hidden;
+  overflow-y: auto;
 
   .lighting-table {
     box-shadow: 4px 4px 10px 0px #00000033;

@@ -1,6 +1,8 @@
-<div class="main-container">
-  <app-floor-plan-switcher (selectedOption)="selectFloorPlan($event)"></app-floor-plan-switcher>
-  <div class="right-side-container">
+<app-floor-plan-switcher (onSelect)="selectFloorPlan($event)"></app-floor-plan-switcher>
+
+@if (floorPlanSwitcherElement) {
+  <div class="right-side-container" [style.marginLeft.px]="marginWidth">
     <app-grouped-table />
   </div>
-</div>
+}
+

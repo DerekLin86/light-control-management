@@ -39,14 +39,15 @@ export class HeaderService {
     switch (pageName) {
       case FLOOR_PLAN_ROUTE_PATH: {
         // Get project name and set it up.
-        const queryParams = route.snapshot.params;
-        if (queryParams['projectName']) {
-          path = `${toPascalCase(queryParams['projectName'])}`;
+        const param = route.snapshot.params;
+        if (param['projectName']) {
+          path = `${toPascalCase(param['projectName'])}`;
         }
 
         path += ` > ${toPascalCase(pageName)}`;
 
         // Get project name and set it up.
+        const queryParams = route.snapshot.queryParams;
         if (queryParams['floorPlan']) {
           path += ` > ${queryParams['floorPlan']}`.toUpperCase();
         }

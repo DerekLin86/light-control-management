@@ -4,7 +4,6 @@ import {
   OnInit,
   Output,
   OnChanges,
-  SimpleChange,
   EventEmitter,
   input,
   output,
@@ -12,6 +11,7 @@ import {
 } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { BehaviorSubject } from 'rxjs';
 
@@ -22,13 +22,14 @@ import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
 @Component({
   selector: 'app-floor-plan-switcher',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, MatFormFieldModule],
+  imports: [CommonModule, MatSelectModule, MatFormFieldModule, ReactiveFormsModule],
   templateUrl: './floor-plan-switcher.component.html',
   styleUrl: './floor-plan-switcher.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
   readonly options = input<FloorPlan[]>(MOCK_FLOOR_PLAN_LIST);
+  readonly floorPlanControl = input.required<FormControl<FloorPlan | null>>();
   readonly selectedOption = output<FloorPlan>();
 
   readonly selectedOption$ = new BehaviorSubject<FloorPlan | null>(null);

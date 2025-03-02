@@ -1,7 +1,8 @@
 <form class="floor-switcher">
   <mat-form-field>
     <mat-label>Select a Floor Plan</mat-label>
-    <mat-select (selectionChange)="selectNewOption($event.value)" [value]="this.selectedOption$.value">
+    <mat-select (selectionChange)="selectNewOption($event.value)" [value]="this.selectedOption$.value"
+      [formControl]="floorPlanControl()">
       @for (option of options(); track option.label) {
         <mat-option [value]="option">{{ option.label }}</mat-option>
       }

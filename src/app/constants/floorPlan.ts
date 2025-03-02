@@ -35,7 +35,7 @@ export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({ length: DATA_NUMBER
 
 export const MOCK_FLOOR_PLAN_LIST: FloorPlan[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
   return {
-    label: i === 0 ? 'G/F' : `${i}F`,
+    label: i === 0 ? 'GF' : `${i}F`,
     planImageUrl: '/assets/images/floor-plan.png',
   };
 });

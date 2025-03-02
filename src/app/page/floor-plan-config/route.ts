@@ -10,15 +10,10 @@ export const FloorPlanRoutes: Routes = [
     children: [
       {
         path: ':projectName',
-        children: [
-          {
-            path: ':floorPlan',
-            component: FloorPlanConfigComponent,
-            data: {
-              pageName: ROUTEPATH,
-            },
-          },
-        ],
+        component: FloorPlanConfigComponent,
+        data: {
+          pageName: ROUTEPATH,
+        },
       },
     ],
   },

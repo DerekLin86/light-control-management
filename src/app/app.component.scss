@@ -14,7 +14,7 @@
       display: flex;
       margin-top: global.$header-height;
       padding: 1rem 2rem;
-      height: calc(100vh - global.$header-height);
+      height: calc(100vh - global.$header-height - 2rem);
     }
   }
 }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { debounceTime, startWith } from 'rxjs/operators';
 
 import { FloorPlanService } from '../../services/floorPlan.service';

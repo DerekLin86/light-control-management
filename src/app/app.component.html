@@ -1,6 +1,6 @@
 <app-left-bar/>
 <div class="right-side">
-  <app-header [projectName]="projectName()" [pageName]="pageName()" />
+  <app-header [path]="routerPath()" />
   <div class="content-container">
     <router-outlet />
   </div>

@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { LeftBarComponent } from './layout/left-bar/left-bar.component';
 import { HeaderComponent } from './layout/header/header.component';
 
+import {HeaderService} from './services/header.service';
+
 import { convertRouterPathToPageName } from './utils/core/page-name-utils';
 
 @Component({
@@ -16,6 +18,7 @@ import { convertRouterPathToPageName } from './utils/core/page-name-utils';
 })
 export class AppComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly headerService = inject(HeaderService);
 
   readonly title = 'LS-management';
   private _projectName = signal('');
@@ -41,11 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   // Getters
-  get projectName() {
-    return this._projectName.asReadonly();
-  }
-
-  get pageName() {
-    return this._pageName.asReadonly();
+  get routerPath() {
+    return this.headerService.path.asReadonly();
   }
 }

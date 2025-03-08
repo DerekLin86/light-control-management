@@ -59,26 +59,16 @@
   display: flex;
   overflow-y: auto;
 
-  .lighting-table {
-    box-shadow: 4px 4px 10px 0px #00000033;
+  // Default style
+  .mat-mdc-header-row {
+    --mat-table-header-container-height: 40px;
   }
-
+  .mat-mdc-row {
+    --mat-table-row-item-container-height:  40px;
+  }
   .mat-mdc-table {
     min-width: unset;
   }
-
-  .zone-table ::ng-deep {
-    thead .mat-mdc-header-cell {
-      height: 3rem;
-      width: 6rem;
-      margin-left: unset;
-    }
-    tbody .mat-mdc-cell {
-      width: 6rem;
-      margin-left: unset;
-    }
-  }
-
   table ::ng-deep {
     white-space: nowrap;
     overflow: auto;
@@ -111,9 +101,25 @@
     }
   }
 
+  // Customize for each group table.
+  .lighting-table {
+    box-shadow: 4px 4px 10px 0px #00000033;
+  }
+  .zone-table ::ng-deep {
+    thead .mat-mdc-header-cell {
+      height: 3rem;
+      width: 6rem;
+      margin-left: unset;
+    }
+    tbody .mat-mdc-cell {
+      width: 6rem;
+      margin-left: unset;
+    }
+  }
+
   @include collapse();
-    @include cellcolor();
-    @include tableBorder();
+  @include cellcolor();
+  @include tableBorder();
 }
 
 table ::ng-deep .column-with-button {

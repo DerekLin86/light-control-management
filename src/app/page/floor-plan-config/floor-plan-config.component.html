@@ -1,4 +1,8 @@
-<app-floor-plan-switcher [floorPlanControl]="selectedFloorPlan" (onSelect)="selectFloorPlan($event)"></app-floor-plan-switcher>
+<app-floor-plan-switcher
+  [options]="floorPlanList"
+  [floorPlanControl]="selectedFloorPlan"
+  (onSelect)="selectFloorPlan($event)">
+</app-floor-plan-switcher>
 
 @if (floorPlanSwitcherElement) {
   <div class="right-side-container" [style.marginLeft.px]="marginWidth">

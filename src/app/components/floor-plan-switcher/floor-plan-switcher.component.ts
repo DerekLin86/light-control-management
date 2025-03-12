@@ -15,6 +15,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { BehaviorSubject } from 'rxjs';
 
+import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
 import { FloorPlan } from '../../types/floorPlan';
 
 import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
@@ -28,27 +29,29 @@ import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
-  readonly options = input<FloorPlan[]>(MOCK_FLOOR_PLAN_LIST);
-  readonly floorPlanControl = input.required<FormControl<FloorPlan | null>>();
-  readonly selectedOption = output<FloorPlan>();
+  readonly options = input<FloorPlanServer[]>([]);
+  readonly floorPlanControl = input.required<FormControl<FloorPlanServer | null>>();
+  readonly selectedOption = output<FloorPlanServer>();
 
-  readonly selectedOption$ = new BehaviorSubject<FloorPlan | null>(null);
+  readonly selectedOption$ = new BehaviorSubject<FloorPlanServer | null>(null);
 
   @Output('onSelect')
-  selectedOptionEmit = new EventEmitter<FloorPlan | null>();
+  selectedOptionEmit = new EventEmitter<FloorPlanServer | null>();
 
   ngOnInit() {
     // For demo
-    this.selectNewOption(MOCK_FLOOR_PLAN_LIST[0]);
+    // this.selectNewOption();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['options']) {
-      this.selectNewOption(this.options()[0]);
+      if (this.options().length > 0) {
+        this.selectNewOption(this.options()[0]);
+      }
     }
   }
 
-  selectNewOption(option: FloorPlan) {
+  selectNewOption(option: FloorPlanServer) {
     this.selectedOption$.next(option);
     this.selectedOption.emit(option);
     this.selectedOptionEmit.emit(option);

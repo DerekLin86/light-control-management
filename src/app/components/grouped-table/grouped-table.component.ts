@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, signal } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,12 +30,15 @@ export class GroupedTableComponent implements OnInit {
   readonly indoorColumn = ['status', 'control', 'targetLux', 'bypass'];
   readonly outdoorColumn = ['status', 'control', 'targetLux', 'bypass'];
 
+  // Cokkapse Settings
   lightingCollapse = true;
   occupancyCollapse = true;
   indoorCollapse = true;
   outdoorCollapse = true;
-
   collapse = true;
+
+  // input
+  floorRawData = input.required<FloorPlanData[]>();
 
   ngOnInit() {}
 

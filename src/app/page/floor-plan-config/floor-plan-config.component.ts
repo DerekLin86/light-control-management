@@ -1,18 +1,23 @@
-import { AfterViewInit, Component, OnInit, inject, ViewChild, ElementRef } from '@angular/core';
-import { BehaviorSubject, fromEvent } from 'rxjs';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  inject,
+  ViewChild,
+  ElementRef,
+  signal,
+} from '@angular/core';
+import { BehaviorSubject, fromEvent, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, startWith, first, map } from 'rxjs/operators';
+import { debounceTime, startWith, first, map, single, switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
 
-import { Building } from '../../types/building';
-import { FloorPlan } from '../../types/floorPlan';
+import { FloorPlanData } from '../../types/floorPlan';
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
-
-import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
 
 import { normalizeFloorPlanData } from '../../utils/floor-plan/floor-plan-utils';
 
@@ -30,6 +35,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
   readonly selectedFloorPlan = new FormControl<FloorPlanServer | null>(null);
 
   protected readonly floorPlanList$ = new BehaviorSubject<FloorPlanServer[]>([]);
+  protected readonly floorRawData = signal<FloorPlanData[]>([]);
 
   readonly GAP = 32; //px
   marginWidth = 0;
@@ -39,6 +45,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
   floorPlanSwitcherElement!: ElementRef;
 
   ngOnInit(): void {
+    this.registerSelectedFloorListener();
     this.fetchFloorPlanList();
     this.registerResizeListener();
   }
@@ -71,7 +78,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
 
     const defaultFloor: string = this.route.snapshot.params['floorPlan'] ?? '';
 
-    const floorPlan = this.floorPlanList.find((floorPlan) => floorPlan.name === defaultFloor);
+    const floorPlan = this.floorPlanList.find(floorPlan => floorPlan.name === defaultFloor);
 
     if (floorPlan) {
       this.selectedFloorPlan.setValue(floorPlan);
@@ -91,6 +98,8 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
       });
   }
 
+  // Actions
+
   private updateMargin() {
     this.marginWidth = (this.floorPlanSwitcherElement?.nativeElement?.offsetWidth ?? 0) + this.GAP;
   }
@@ -103,6 +112,20 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
       },
       queryParamsHandling: 'merge',
     });
+  }
+
+  private registerSelectedFloorListener() {
+    this.selectedFloorPlan.valueChanges
+      .pipe(
+        switchMap(selectedFloorPlan => {
+          return selectedFloorPlan
+            ? this.floorPlanService.fetchFloorConfiguration(selectedFloorPlan.id).pipe(first())
+            : of([]);
+        })
+      )
+      .subscribe((floorPlanRawData: FloorPlanData[]) => {
+        this.floorRawData.set(floorPlanRawData);
+      });
   }
 
   // Getters

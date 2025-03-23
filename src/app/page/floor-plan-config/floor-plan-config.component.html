@@ -6,7 +6,7 @@
 
 @if (floorPlanSwitcherElement) {
   <div class="right-side-container" [style.marginLeft.px]="marginWidth">
-    <app-grouped-table />
+    <app-grouped-table [floorRawData]="floorRawData()" />
   </div>
 }
 

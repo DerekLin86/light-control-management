@@ -1,12 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import {HttpClient} from '@angular/common/http'
-import {Observable} from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import {Building} from '../types/building'
+import { Building } from '../types/building';
+import { FloorPlanData } from '../types/floorPlan';
 import { FloorPlan as FloorPlanServerSide } from '../types/floorPlan-service';
 
 import { SERVICE_ADDRESS } from '../constants/servers';
 import { API_TYPE, API_MAPPOING } from '../constants/api';
+import { MOCK_LIGHT_DATA } from '../constants/floorPlan';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +24,7 @@ export class FloorPlanService {
     ) as Observable<FloorPlanServerSide[]>;
   }
 
-  fetchFloorPhoto(imgName: string) {
-
+  fetchFloorConfiguration(floorId: number): Observable<FloorPlanData[]> {
+    return of(MOCK_LIGHT_DATA);
   }
 }

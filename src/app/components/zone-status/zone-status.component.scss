@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  &.active svg {
+    fill: #57B37F;
+  }
+
+  &.inactive svg {
+    fill: var(--mat-sys-error);
+  }
+}

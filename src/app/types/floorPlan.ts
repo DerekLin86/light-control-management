@@ -1,16 +1,27 @@
+import { DaylightType } from '../types/daylight';
+
 export interface FloorPlan {
   label: string;
   planImageUrl: string;
 }
 
 export interface BasicZoneSetting {
+  zoneStatus: boolean;
   zone: string;
   description: string;
+  deviceType: string;
+  enableSchedule: boolean;
+}
+
+export interface BybassSettings {
+  enableBypass: boolean;
+  bypassTimer: string;
 }
 
 export interface LightingSetting {
   status: boolean;
-  control: boolean;
+  ccmsControl: boolean;
+  clmsControl: boolean;
   dimmingLevel: number;
 }
 
@@ -18,7 +29,14 @@ export interface OccupancySensor {
   status: OccupancyStatus;
   control: boolean;
   timeoutPeriod: string;
-  bypass: boolean;
+  sensitivity: string;
+}
+
+export interface Daylight {
+  status: boolean;
+  control: boolean;
+  targetLux: string;
+  type: DaylightType;
 }
 
 export interface IndoorSensor {
@@ -36,8 +54,10 @@ export interface OutdorrSensor {
 }
 
 export interface FloorPlanData extends BasicZoneSetting {
+  bypass: BybassSettings;
   lightting: LightingSetting;
   occupancy: OccupancySensor;
+  daylight: Daylight;
   indoorSensor: IndoorSensor;
   outdoorSensor: OutdorrSensor;
 }

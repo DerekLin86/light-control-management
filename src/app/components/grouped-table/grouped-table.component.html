@@ -1,5 +1,12 @@
 @if (dataSource.length > 0) {
   <table mat-table [dataSource]="floorRawData()" class="zone-table">
+    <ng-container matColumnDef="zoneStatus">
+      <th mat-header-cell *matHeaderCellDef>Zone Status</th>
+      <td mat-cell *matCellDef="let element">
+        <app-zone-status [status]="element.zoneStatus"></app-zone-status>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="zone">
       <th mat-header-cell *matHeaderCellDef>Zone</th>
       <td mat-cell *matCellDef="let element">{{element.zone}}</td>
@@ -11,10 +18,46 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">{{element.deviceType}}</td>
+    </ng-container>
+    
+    <ng-container matColumnDef="enableSchedule">
+      <th mat-header-cell *matHeaderCellDef>Schedule</th>
+      <td mat-cell *matCellDef="let element">
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.enableSchedule"></app-slider-toggle-formcontrol>
+      </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="basicZoneColumn; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: basicZoneColumn;"></tr>
   </table>
 
+  <!-- bypass -->
+  <table mat-table [dataSource]="floorRawData()" [class.collapse]="bypassCollapse" class="bypass-table">
+    <ng-container matColumnDef="enableBypass">
+      <th class="column-large" mat-header-cell *matHeaderCellDef>
+        <div class="column-with-button">
+          <p>Bypass</p>
+          <button (click)="bypassCollapse = !bypassCollapse" mat-button>></button>
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.bypass.enableBypass"></app-slider-toggle-formcontrol>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="bypassTimer">
+      <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
+      <td mat-cell *matCellDef="let element">{{element.bypass.bypassTimer}}</td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="bypassColumn sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: bypassColumn;"></tr>
+  </table>
+  
+  <!-- lighting -->
   <table mat-table [dataSource]="floorRawData()" [class.collapse]="lightingCollapse" class="lighting-table">
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>
@@ -24,20 +67,27 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-light-status [(lightStatus)]="element.lightting.control"></app-light-status>
+        <app-light-status [(lightStatus)]="element.lightting.ccmsControl"></app-light-status>
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="control">
-      <th mat-header-cell *matHeaderCellDef>Control</th>
+    <ng-container matColumnDef="ccmsControl">
+      <th mat-header-cell *matHeaderCellDef>CCMS Conctrol</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.lightting.control"
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.lightting.ccmsControl"
           (toggleValueChange)="toggleLightStatus($event, element.lightting)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="clmsControl">
+      <th class="column-large" mat-header-cell *matHeaderCellDef>CLMS Control</th>
+      <td mat-cell *matCellDef="let element">
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.lightting.clmsControl"></app-slider-toggle-formcontrol>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="dimming">
-      <th class="column-large" mat-header-cell *matHeaderCellDef> Dimming Level</th>
+      <th class="column-large" mat-header-cell *matHeaderCellDef>Dimming Level</th>
       <td mat-cell *matCellDef="let element">{{element.lightting.dimmingLevel}}</td>
     </ng-container>
 
@@ -45,6 +95,7 @@
     <tr mat-row *matRowDef="let row; columns: lightingColumn;"></tr>
   </table>
 
+  <!-- Occypancy -->
   <table mat-table [dataSource]="floorRawData()" [class.collapse]="occupancyCollapse" class="lighting-table">
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>
@@ -58,7 +109,9 @@
 
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
-      <td mat-cell *matCellDef="let element">{{element.occupancy.control}}</td>
+      <td mat-cell *matCellDef="let element">
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.occupancy.control"></app-slider-toggle-formcontrol>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="timeout">
@@ -66,80 +119,51 @@
       <td mat-cell *matCellDef="let element">{{element.occupancy.timeoutPeriod}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="bypass">
-      <th mat-header-cell *matHeaderCellDef> Bypass</th>
-      <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.occupancy.bypass"></app-slider-toggle-formcontrol>
-      </td>
+    <ng-container matColumnDef="sensitivity">
+      <th mat-header-cell *matHeaderCellDef>Sensitivity</th>
+      <td mat-cell *matCellDef="let element">{{element.occupancy.sensitivity}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="occupancyColumn sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: occupancyColumn;"></tr>
   </table>
 
-  <table mat-table [dataSource]="floorRawData()" [class.collapse]="indoorCollapse" class="lighting-table">
+  <!-- Daylight -->
+  <table mat-table [dataSource]="floorRawData()" [class.collapse]="daylightCollapse">
     <ng-container matColumnDef="status">
       <th class="column-large" mat-header-cell *matHeaderCellDef>
         <div class="column-with-button">
-          <p>Indoor Sensor</p>
-          <button (click)="indoorCollapse = !indoorCollapse" mat-button>></button>
+          <p>Daylight</p>
+          <button (click)="daylightCollapse = !daylightCollapse" mat-button>></button>
         </div>
       </th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.status}}</td>
+      <td mat-cell *matCellDef="let element">
+        <app-light-status [(lightStatus)]="element.daylight.status"></app-light-status>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.control}}</td>
+
+      <td mat-cell *matCellDef="let element">
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.daylight.status"></app-slider-toggle-formcontrol>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="targetLux">
       <th class="column-medium" mat-header-cell *matHeaderCellDef>Target Lux</th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.targetLux}}</td>
+      <td mat-cell *matCellDef="let element">{{ element.daylight.targetLux }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="bypass">
-      <th mat-header-cell *matHeaderCellDef>Bypass</th>
-      <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.indoorSensor.bypass"></app-slider-toggle-formcontrol>
-      </td>
+    <ng-container matColumnDef="type">
+      <th class="column-medium" mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.daylight.type }}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="indoorColumn sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: indoorColumn;"></tr>
+    <tr mat-header-row *matHeaderRowDef="daylightColumn sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: daylightColumn;"></tr>
   </table>
 
-  <table mat-table [dataSource]="floorRawData()" [class.collapse]="outdoorCollapse" class="lighting-table">
-    <ng-container matColumnDef="status">
-      <th class="column-large" mat-header-cell *matHeaderCellDef>
-        <div class="column-with-button">
-          <p>Outdoor Sensor</p>
-          <button (click)="outdoorCollapse = !outdoorCollapse" mat-button>></button>
-        </div>
-      </th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.status}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="control">
-      <th mat-header-cell *matHeaderCellDef>Control</th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.control}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="targetLux">
-      <th class="column-medium" mat-header-cell *matHeaderCellDef>Target Lux</th>
-      <td mat-cell *matCellDef="let element">{{element.indoorSensor.targetLux}}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="bypass">
-      <th mat-header-cell *matHeaderCellDef>Bypass</th>
-      <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.indoorSensor.bypass"></app-slider-toggle-formcontrol>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="outdoorColumn sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: outdoorColumn;"></tr>
-  </table>
 
 }
 

@@ -3,6 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { ZoneStatusComponent } from '../zone-status/zone-status.component';
 import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
 import { FloorPlanData, LightingSetting } from '../../types/floorPlan';
@@ -16,6 +17,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
     MatTooltipModule,
     LightStatusComponent,
     SliderTootgleFormcontrolComponent,
+    ZoneStatusComponent,
   ],
   standalone: true,
   templateUrl: './grouped-table.component.html',
@@ -24,15 +26,19 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
 })
 export class GroupedTableComponent implements OnInit {
   readonly dataSource: FloorPlanData[] = MOCK_LIGHT_DATA;
-  readonly basicZoneColumn = ['zone', 'description'];
-  readonly lightingColumn = ['status', 'control', 'dimming'];
-  readonly occupancyColumn = ['status', 'control', 'timeout', 'bypass'];
+  readonly basicZoneColumn = ['zoneStatus', 'zone', 'description', 'type', 'enableSchedule'];
+  readonly bypassColumn = ['enableBypass', 'bypassTimer'];
+  readonly lightingColumn = ['status', 'ccmsControl', 'clmsControl', 'dimming'];
+  readonly occupancyColumn = ['status', 'control', 'timeout', 'sensitivity'];
+  readonly daylightColumn = ['status', 'control', 'targetLux', 'type'];
   readonly indoorColumn = ['status', 'control', 'targetLux', 'bypass'];
   readonly outdoorColumn = ['status', 'control', 'targetLux', 'bypass'];
 
-  // Cokkapse Settings
+  // Collapse Settings
+  bypassCollapse = true;
   lightingCollapse = true;
   occupancyCollapse = true;
+  daylightCollapse = true;
   indoorCollapse = true;
   outdoorCollapse = true;
   collapse = true;
@@ -44,10 +50,9 @@ export class GroupedTableComponent implements OnInit {
 
   expandColumn(groupElement: Element) {
     groupElement.classList.add('.');
-    console.log(groupElement);
   }
 
   toggleLightStatus(value: boolean, element: LightingSetting) {
-    element.control = value;
+    element.ccmsControl = value;
   }
 }

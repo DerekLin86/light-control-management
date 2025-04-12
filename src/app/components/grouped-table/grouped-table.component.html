@@ -22,11 +22,11 @@
       <th mat-header-cell *matHeaderCellDef>Type</th>
       <td mat-cell *matCellDef="let element">{{element.deviceType}}</td>
     </ng-container>
-    
+
     <ng-container matColumnDef="enableSchedule">
       <th mat-header-cell *matHeaderCellDef>Schedule</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.enableSchedule"></app-slider-toggle-formcontrol>
+        <ScheduleStatusComponent [status]="element.enableSchedule"></ScheduleStatusComponent>
       </td>
     </ng-container>
 
@@ -47,16 +47,16 @@
         <app-slider-toggle-formcontrol [(toggleValue)]="element.bypass.enableBypass"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
-  
+
     <ng-container matColumnDef="bypassTimer">
       <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
       <td mat-cell *matCellDef="let element">{{element.bypass.bypassTimer}}</td>
     </ng-container>
-  
+
     <tr mat-header-row *matHeaderRowDef="bypassColumn sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: bypassColumn;"></tr>
   </table>
-  
+
   <!-- lighting -->
   <table mat-table [dataSource]="floorRawData()" [class.collapse]="lightingCollapse" class="lighting-table">
     <ng-container matColumnDef="status">

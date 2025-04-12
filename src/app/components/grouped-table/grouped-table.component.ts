@@ -3,6 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { ScheduleStatusComponent } from '../schedule-status/schedule-status.component';
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
 import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
@@ -16,6 +17,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
     MatTableModule,
     MatTooltipModule,
     LightStatusComponent,
+    ScheduleStatusComponent,
     SliderTootgleFormcontrolComponent,
     ZoneStatusComponent,
   ],

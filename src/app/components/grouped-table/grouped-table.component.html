@@ -20,7 +20,8 @@
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{element.deviceType}}</td>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element.deviceType | deviceTypeToDisplayName">
+        {{element.deviceType}}</td>
     </ng-container>
 
     <ng-container matColumnDef="enableSchedule">

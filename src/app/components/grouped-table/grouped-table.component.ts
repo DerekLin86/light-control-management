@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, signal, Pipe } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { DeviceTypeToDisplayNamePipes } from '../../Pipes/device_type_pipes.pipe';
 import { ScheduleStatusComponent } from '../schedule-status/schedule-status.component';
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
 import { LightStatusComponent } from '../light-status/light-status.component';
@@ -13,6 +14,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
 @Component({
   selector: 'app-grouped-table',
   imports: [
+    DeviceTypeToDisplayNamePipes,
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,

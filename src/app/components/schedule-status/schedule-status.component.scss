@@ -1,5 +1,13 @@
+@use '../../../styles.scss' as global;
 :host {
   display: flex;
   align-items: center;
   justify-content: center;
+  .enable {
+    fill: #57B37F;
+  }
+
+  .disable {
+    fill: #D9D9D9;
+  }
 }

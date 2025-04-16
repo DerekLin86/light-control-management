@@ -9,6 +9,7 @@ import { ZoneStatusComponent } from '../zone-status/zone-status.component';
 import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
 import { FloorPlanData, LightingSetting } from '../../types/floorPlan';
+import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
 
 @Component({
@@ -19,6 +20,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
     MatTableModule,
     MatTooltipModule,
     LightStatusComponent,
+    OccupancyChipComponent,
     ScheduleStatusComponent,
     SliderTootgleFormcontrolComponent,
     ZoneStatusComponent,

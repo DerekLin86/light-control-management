@@ -1,12 +1,9 @@
 @use '../../../styles.scss' as global;
 
-:host {
-  color: global.$parmary-color;
-  font-weight: 800;
-  align-items: center;
-  background-color: #57B37F;
-  display: flex;
-  justify-content: center;
-  border-radius: 12px;
-  padding: 2px 4px;
+
+.icon {
+  fill: global.$primary-grey-color;
+  &.active {
+    fill: #57B37F;
+  }
 }

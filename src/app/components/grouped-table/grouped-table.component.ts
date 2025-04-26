@@ -11,6 +11,7 @@ import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
 import { FloorPlanData, LightingSetting } from '../../types/floorPlan';
 import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
+import { SensitivityToDisplayNamePipes } from '../../Pipes/sensitivity.pipe';
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
     OccupancyChipComponent,
     ScheduleStatusComponent,
     SliderTootgleFormcontrolComponent,
+    SensitivityToDisplayNamePipes,
     ZoneStatusComponent,
   ],
   standalone: true,

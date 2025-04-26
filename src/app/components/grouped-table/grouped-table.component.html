@@ -3,13 +3,13 @@
     <ng-container matColumnDef="zoneStatus">
       <th mat-header-cell *matHeaderCellDef>Zone Status</th>
       <td mat-cell *matCellDef="let element">
-        <app-zone-status [status]="element.zoneStatus"></app-zone-status>
+        <app-zone-status [status]="element.isOnline"></app-zone-status>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="zone">
       <th mat-header-cell *matHeaderCellDef>Zone</th>
-      <td mat-cell *matCellDef="let element">{{element.zone}}</td>
+      <td mat-cell *matCellDef="let element">{{element.name}}</td>
     </ng-container>
 
     <ng-container matColumnDef="description">
@@ -20,14 +20,15 @@
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element" [matTooltip]="element.deviceType | deviceTypeToDisplayName">
-        {{element.deviceType}}</td>
+      <td mat-cell *matCellDef="let element" [matTooltip]="element.zoneType.zoneTypeName | deviceTypeToDisplayName">
+        {{element.zoneType.zoneTypeName}}</td>
     </ng-container>
 
     <ng-container matColumnDef="enableSchedule">
       <th mat-header-cell *matHeaderCellDef>Schedule</th>
       <td mat-cell *matCellDef="let element">
-        <ScheduleStatusComponent [status]="element.enableSchedule"></ScheduleStatusComponent>
+        <!-- not provide yet -->
+        <ScheduleStatusComponent [status]="element.isOnline"></ScheduleStatusComponent>
       </td>
     </ng-container>
 
@@ -45,13 +46,13 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.bypass.enableBypass"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="getBypassStatus(element)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="bypassTimer">
       <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
-      <td mat-cell *matCellDef="let element">{{element.bypass.bypassTimer}}</td>
+      <td mat-cell *matCellDef="let element">{{ getBypasstimer(element) }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="bypassColumn sticky: true"></tr>
@@ -68,14 +69,14 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-light-status [(lightStatus)]="element.lightting.ccmsControl"></app-light-status>
+        <app-light-status [lightStatus]="element.isOn"></app-light-status>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="ccmsControl">
       <th mat-header-cell *matHeaderCellDef>CCMS Conctrol</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.lightting.ccmsControl"
+        <app-slider-toggle-formcontrol [toggleValue]="element.isCcmsZone"
           (toggleValueChange)="toggleLightStatus($event, element.lightting)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
@@ -83,13 +84,13 @@
     <ng-container matColumnDef="clmsControl">
       <th class="column-large" mat-header-cell *matHeaderCellDef>CLMS Control</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.lightting.clmsControl"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="!element.isCcmsZone"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="dimming">
       <th class="column-large" mat-header-cell *matHeaderCellDef>Dimming Level</th>
-      <td mat-cell *matCellDef="let element">{{element.lightting.dimmingLevel}}%</td>
+      <td mat-cell *matCellDef="let element">{{element.lightLevel ?? '0'}}%</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="lightingColumn sticky: true"></tr>
@@ -106,25 +107,25 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-occupancy-chip [status]="element.occupancy.status"></app-occupancy-chip>
+        <app-occupancy-chip [status]="element.occupied"></app-occupancy-chip>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.occupancy.control"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [(toggleValue)]="element.occSensorEable"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="timeout">
       <th mat-header-cell *matHeaderCellDef> Timeout Period</th>
-      <td mat-cell *matCellDef="let element">{{element.occupancy.timeoutPeriod}}</td>
+      <td mat-cell *matCellDef="let element">{{element.occupancySensorTimeout ?? '0'}} (sec)</td>
     </ng-container>
 
     <ng-container matColumnDef="sensitivity">
       <th mat-header-cell *matHeaderCellDef>Sensitivity</th>
-      <td mat-cell *matCellDef="let element">{{element.occupancy.sensitivity}}</td>
+      <td mat-cell *matCellDef="let element">{{element.ultraOccupancySensitivity}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="occupancyColumn sticky: true"></tr>
@@ -141,7 +142,7 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-light-status [(lightStatus)]="element.daylight.status"></app-light-status>
+        <app-light-status [lightStatus]="true"></app-light-status>
       </td>
     </ng-container>
 
@@ -149,24 +150,22 @@
       <th mat-header-cell *matHeaderCellDef>Control</th>
 
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [(toggleValue)]="element.daylight.status"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="element.DaylightSensorEnable"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="targetLux">
       <th class="column-medium" mat-header-cell *matHeaderCellDef>Target Lux</th>
-      <td mat-cell *matCellDef="let element">{{ element.daylight.targetLux }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.targetLuxLevel ?? 'N/A' }}</td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th class="column-medium" mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.daylight.type }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.zoneType.isOutdoor ? 'Outdoor' : 'Indoor'}}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="daylightColumn sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: daylightColumn;"></tr>
   </table>
-
-
 }
 

@@ -1,9 +1,74 @@
 import { FloorPlanData, OccupancyStatus, SensorStatus } from '../types/floorPlan';
-import { FloorPlan } from '../types/floorPlan';
+import { FloorPlan, Sensitivity } from '../types/floorPlan';
 import { DeviceType } from '../types/deviceType';
 import { DaylightType } from '../types/daylight';
+import { Zone } from '../types/zone';
 
 const DATA_NUMBER = 50;
+
+export const MOCK_ZONE_DATA: Zone[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
+  return {
+    buildingId: 100 + i,
+    floorId: 10 + i,
+    id: i,
+    zId: 20 + i,
+    zoneId: (20 + i).toString(),
+    sorting: i,
+
+    isOnline: (i + 1) % 2 === 0,
+    name: `ZONE ${i}`,
+    description: i === 2 ? 'A very loooooooooooooooooooooong description' : `Description ${i}`,
+    zoneType: {
+      isOutdoor: (i + 1) % 2 === 0,
+      zoneOccMode: i,
+      zoneDaylightMode: i,
+      thirdPartyType: i,
+      zoneTypeName: `${['A', 'B', 'C', 'D', 'E', 'F', 'G'][i % 7]}` as DeviceType,
+    },
+    haveOcc: (i + 1) % 2 === 1 ? 0 : 1,
+    hasDaylight: (i + 1) % 2 === 1 ? 0 : 1,
+    bypassOccupancySensor: {},
+    bypassOccupancySensorAt: '05:00',
+    bypassDaylightSensor: {},
+    bypassDaylightSensorAt: '06:00',
+    isCcmsZone: (i + 1) % 2 === 1 ? 0 : 1,
+    isOn: (i + 1) % 2 === 1 ? 0 : 1,
+    lightLevel: '100',
+    Occupied: {},
+    OccSensorEnable: {},
+    occupancySensorTimeout: '15',
+    ultraOccupancySensitivity: [Sensitivity.HIGH, Sensitivity.MED, Sensitivity.LOW][i % 3],
+    DaylightSensorEnable: (i + 1) % 2 === 1 ? 0 : 1,
+    targetLuxLevel: '5000',
+    CcmsControlStatus: i,
+    DaylightMinLevel: {},
+    bypassTimeout: {},
+    bypassTimeoutForDaylightSensor: {},
+    bypassTimeoutForOccupancySensor: {},
+    color: 'color',
+    daylightCheckCycle: {},
+    daylightDimmingCycle: {},
+    daylightDimmingStep: {},
+    daylightLuxReportStep: {},
+    dimmingStatus: {},
+    haveDimmer: (i + 1) % 2 === 1 ? 0 : 1,
+    haveKeypad: (i + 1) % 2 === 1 ? 0 : 1,
+    haveRelay: (i + 1) % 2 === 1 ? 0 : 1,
+    lastOnlineUpdate: {},
+    lastUpdate: {},
+    luxLevel: {},
+    luxOffset: {},
+    minLuxLevel: {},
+    occupied: {},
+    pirOccupancySensitivity: {},
+    pirVacancySensitivity: {},
+    processorId: {},
+    sensorEnable: {},
+    sensorMode: {},
+    targetOnLevel: {},
+    ultraVacancySensitivity: {},
+  };
+});
 
 export const MOCK_LIGHT_DATA: FloorPlanData[] = Array.from({ length: DATA_NUMBER }, (_, i) => {
   return {

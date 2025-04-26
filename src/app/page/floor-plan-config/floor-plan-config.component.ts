@@ -15,11 +15,12 @@ import { FormControl } from '@angular/forms';
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
-
+import { MOCK_ZONE_DATA } from '../../constants/floorPlan';
 import { FloorPlanData } from '../../types/floorPlan';
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
 
 import { normalizeFloorPlanData } from '../../utils/floor-plan/floor-plan-utils';
+import { Zone } from '../../types/zone';
 
 @Component({
   selector: 'app-floor-plan-config',
@@ -35,7 +36,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
   readonly selectedFloorPlan = new FormControl<FloorPlanServer | null>(null);
 
   protected readonly floorPlanList$ = new BehaviorSubject<FloorPlanServer[]>([]);
-  protected readonly floorRawData = signal<FloorPlanData[]>([]);
+  protected readonly floorRawData = signal<Zone[]>([]);
 
   readonly GAP = 32; //px
   marginWidth = 0;
@@ -93,7 +94,18 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
         map(floorPlan => normalizeFloorPlanData(floorPlan))
       )
       .subscribe((floorPlanList: FloorPlanServer[]) => {
-        this.floorPlanList$.next(floorPlanList);
+        this.floorPlanList$.next([
+          ...floorPlanList,
+          {
+            buildingId: 999,
+            color: 'white',
+            description: 'sample',
+            id: 999,
+            img: '',
+            name: 'sample',
+            sorting: 999,
+          },
+        ]);
         this.initializeFloorPlanFromRoute();
       });
   }
@@ -118,12 +130,14 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
     this.selectedFloorPlan.valueChanges
       .pipe(
         switchMap(selectedFloorPlan => {
-          return selectedFloorPlan
-            ? this.floorPlanService.fetchFloorConfiguration(selectedFloorPlan.id).pipe(first())
-            : of([]);
+          if (selectedFloorPlan?.id === 999) {
+            return of(MOCK_ZONE_DATA);
+          } else {
+            return this.floorPlanService.fetchZoneStatus(selectedFloorPlan?.id ?? 34);
+          }
         })
       )
-      .subscribe((floorPlanRawData: FloorPlanData[]) => {
+      .subscribe((floorPlanRawData: Zone[]) => {
         this.floorRawData.set(floorPlanRawData);
       });
   }

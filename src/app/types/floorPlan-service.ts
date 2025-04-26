@@ -5,5 +5,5 @@ export interface FloorPlan {
   id: number;
   img: string;
   name: string;
-  sorting: 8;
+  sorting: number;
 }

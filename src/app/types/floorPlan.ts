@@ -71,3 +71,9 @@ export enum SensorStatus {
   HIGH = 'High',
   LOW = 'Low',
 }
+
+export enum Sensitivity {
+  LOW,
+  MED,
+  HIGH,
+}

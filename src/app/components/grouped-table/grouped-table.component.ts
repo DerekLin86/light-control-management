@@ -3,6 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { Zone } from '../../types/zone';
 import { DeviceTypeToDisplayNamePipes } from '../../Pipes/device_type_pipes.pipe';
 import { ScheduleStatusComponent } from '../schedule-status/schedule-status.component';
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
@@ -37,8 +38,6 @@ export class GroupedTableComponent implements OnInit {
   readonly lightingColumn = ['status', 'ccmsControl', 'clmsControl', 'dimming'];
   readonly occupancyColumn = ['status', 'control', 'timeout', 'sensitivity'];
   readonly daylightColumn = ['status', 'control', 'targetLux', 'type'];
-  readonly indoorColumn = ['status', 'control', 'targetLux', 'bypass'];
-  readonly outdoorColumn = ['status', 'control', 'targetLux', 'bypass'];
 
   // Collapse Settings
   bypassCollapse = true;
@@ -50,7 +49,7 @@ export class GroupedTableComponent implements OnInit {
   collapse = true;
 
   // input
-  floorRawData = input.required<FloorPlanData[]>();
+  floorRawData = input.required<Zone[]>();
 
   ngOnInit() {}
 
@@ -60,5 +59,25 @@ export class GroupedTableComponent implements OnInit {
 
   toggleLightStatus(value: boolean, element: LightingSetting) {
     element.ccmsControl = value;
+  }
+
+  getBypassStatus(zone: Zone) {
+    if (zone.haveOcc && !zone.hasDaylight) {
+      return !!zone.bypassOccupancySensor;
+    } else if (!zone.haveOcc && zone.hasDaylight) {
+      return !!zone.bypassDaylightSensor;
+    } else {
+      return !!zone.bypassOccupancySensor && !!zone.bypassDaylightSensor;
+    }
+  }
+
+  getBypasstimer(zone: Zone) {
+    if (zone.haveOcc && !zone.hasDaylight) {
+      return zone.bypassOccupancySensorAt ?? '0:00';
+    } else if (!zone.haveOcc && zone.hasDaylight) {
+      return zone.bypassDaylightSensorAt ?? '0:00';
+    } else {
+      return zone.bypassOccupancySensorAt ?? '0:00';
+    }
   }
 }

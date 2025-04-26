@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit, input, signal, Pipe } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -18,6 +19,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
   selector: 'app-grouped-table',
   imports: [
     DeviceTypeToDisplayNamePipes,
+    DatePipe,
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,

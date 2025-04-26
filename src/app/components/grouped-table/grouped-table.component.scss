@@ -24,11 +24,13 @@
   table {
     border-bottom: 2px solid global.$primary-grey-color;
 
-    th,
-    td {
-      border-width: 2px 2px 0px 0px;
-      border-style: solid;
-      border-color: global.$primary-grey-color;
+    tbody {
+      th,
+      td {
+        border-width: 2px 2px 0px 0px;
+        border-style: solid;
+        border-color: global.$primary-grey-color;
+      }
     }
   }
 
@@ -84,8 +86,16 @@
       }
     }
 
-    tbody .mat-mdc-cell {
-      width: 6rem;
+    thead {
+      th, td {
+        border-width: 0;
+      }
+    }
+
+    tbody {
+      .mat-mdc-cell {
+        width: 6rem;
+      }
     }
 
     th, td {
@@ -103,8 +113,8 @@
   }
 
   // Customize for each group table.
-  .lighting-table {
-    box-shadow: 4px 4px 10px 0px #00000033;
+  .table-container {
+    box-shadow: 4px 2px 2px 0px #00000033;
   }
   .zone-table ::ng-deep {
     thead .mat-mdc-header-cell {

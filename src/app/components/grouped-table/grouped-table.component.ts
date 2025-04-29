@@ -77,11 +77,11 @@ export class GroupedTableComponent implements OnInit {
 
   getBypasstimer(zone: Zone) {
     if (zone.haveOcc && !zone.hasDaylight) {
-      return zone.bypassOccupancySensorAt ?? '0:00';
+      return zone.bypassOccupancySensorAt;
     } else if (!zone.haveOcc && zone.hasDaylight) {
-      return zone.bypassDaylightSensorAt ?? '0:00';
+      return zone.bypassDaylightSensorAt;
     } else {
-      return zone.bypassOccupancySensorAt ?? '0:00';
+      return zone.bypassOccupancySensorAt;
     }
   }
 }

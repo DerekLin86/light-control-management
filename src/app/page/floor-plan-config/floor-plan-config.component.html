@@ -6,7 +6,9 @@
 
 @if (floorPlanSwitcherElement) {
   <div class="right-side-container" [style.marginLeft.px]="marginWidth">
-    <app-grouped-table [floorRawData]="floorRawData()" />
+    <app-grouped-table
+      [floorRawData]="floorRawData()"
+      (setZoneBypassAllSensor)="updateBypassStatus($event)" />
   </div>
 }
 

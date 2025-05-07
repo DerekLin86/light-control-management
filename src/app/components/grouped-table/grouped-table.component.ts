@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -55,6 +55,9 @@ export class GroupedTableComponent implements OnInit {
   // input
   floorRawData = input.required<Zone[]>();
 
+  // output
+  setZoneBypassAllSensorOutput = output<Zone>({ alias: 'setZoneBypassAllSensor' });
+
   ngOnInit() {}
 
   expandColumn(groupElement: Element) {
@@ -66,12 +69,12 @@ export class GroupedTableComponent implements OnInit {
   }
 
   getBypassStatus(zone: Zone) {
-    if (zone.haveOcc && !zone.hasDaylight) {
-      return !!zone.bypassOccupancySensor;
-    } else if (!zone.haveOcc && zone.hasDaylight) {
-      return !!zone.bypassDaylightSensor;
+    if (zone.haveOcc === 0 && !(zone.hasDaylight === 0)) {
+      return zone.bypassOccupancySensor === 1;
+    } else if (!(zone.haveOcc === 0) && zone.hasDaylight === 0) {
+      return zone.bypassDaylightSensor === 1;
     } else {
-      return !!zone.bypassOccupancySensor && !!zone.bypassDaylightSensor;
+      return zone.bypassOccupancySensor === 1 && zone.bypassDaylightSensor === 1;
     }
   }
 
@@ -83,5 +86,22 @@ export class GroupedTableComponent implements OnInit {
     } else {
       return zone.bypassOccupancySensorAt;
     }
+  }
+
+  // Actions
+
+  toggleBypassStatus(status: boolean, zone: Zone) {
+    const currentDate = new Date();
+    const request: Zone = {
+      ...zone,
+      bypassOccupancySensor: status ? 0 : 1,
+      bypassDaylightSensor: status ? 0 : 1,
+      bypassOccupancySensorAt: currentDate,
+      bypassDaylightSensorAt: currentDate,
+    };
+
+    console.info(request);
+
+    this.setZoneBypassAllSensorOutput.emit(request);
   }
 }

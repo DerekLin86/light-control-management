@@ -1,22 +1,25 @@
 import {
   AfterViewInit,
   Component,
+  ChangeDetectorRef,
   OnInit,
+  effect,
   inject,
+  OnDestroy,
   ViewChild,
   ElementRef,
   signal,
 } from '@angular/core';
 import { BehaviorSubject, fromEvent, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, startWith, first, map, single, switchMap } from 'rxjs/operators';
+import { debounceTime, startWith, first, map, switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
 import { MOCK_ZONE_DATA } from '../../constants/floorPlan';
-import { FloorPlanData } from '../../types/floorPlan';
+import { WebsocketService, RECEIVE_MESSAGE } from '../../services/websocket.service';
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
 
 import { normalizeFloorPlanData } from '../../utils/floor-plan/floor-plan-utils';
@@ -28,10 +31,12 @@ import { Zone } from '../../types/zone';
   templateUrl: './floor-plan-config.component.html',
   styleUrl: './floor-plan-config.component.scss',
 })
-export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
+export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly floorPlanService = inject(FloorPlanService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly websocketService = inject(WebsocketService);
+  private readonly changeDetectionRef = inject(ChangeDetectorRef);
 
   readonly selectedFloorPlan = new FormControl<FloorPlanServer | null>(null);
 
@@ -45,16 +50,27 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
   @ViewChild(FloorPlanSwitcherComponent, { read: ElementRef })
   floorPlanSwitcherElement!: ElementRef;
 
+  constructor() {
+    effect(() => {
+      this.flushBypassStatus(this.websocketService.bypassAllSensorListensor());
+    });
+  }
+
   ngOnInit(): void {
     this.registerSelectedFloorListener();
     this.fetchFloorPlanList();
     this.registerResizeListener();
+    this.websocketService.connect();
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.updateMargin();
     }, 500);
+  }
+
+  ngOnDestroy(): void {
+    this.websocketService.close();
   }
 
   selectFloorPlan(floorPlan: FloorPlanServer | null) {
@@ -142,7 +158,39 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit {
       });
   }
 
+  // Actions: bypass
+  updateBypassStatus(updatedZoneData: Zone) {
+    const request = {
+      ...updatedZoneData,
+      bypassOccupancySensor: updatedZoneData.bypassOccupancySensor ? 0 : 1,
+      bypassDaylightSensor: updatedZoneData.bypassDaylightSensor ? 0 : 1,
+    };
+    this.websocketService.updateBypassStatus(request);
+  }
+
+  private flushBypassStatus(message?: RECEIVE_MESSAGE) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              bypassOccupancySensor: message.value,
+              bypassDaylightSensor: message.value,
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
   // Getters
+
+  get currentBuildingId() {
+    return this.selectedFloorPlan.value?.buildingId;
+  }
 
   get floorPlanList() {
     return this.floorPlanList$.value;

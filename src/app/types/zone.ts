@@ -83,10 +83,10 @@ export interface Zone {
   // schedule => not ready
   haveOcc: 0 | 1;
   hasDaylight: 0 | 1;
-  bypassOccupancySensor?: any;
-  bypassOccupancySensorAt?: any;
-  bypassDaylightSensor: any;
-  bypassDaylightSensorAt?: any;
+  bypassOccupancySensor?: 0 | 1;
+  bypassOccupancySensorAt?: Date;
+  bypassDaylightSensor: 0 | 1;
+  bypassDaylightSensorAt?: Date;
   isCcmsZone?: 0 | 1;
   isOn?: 0 | 1;
   lightLevel?: any;

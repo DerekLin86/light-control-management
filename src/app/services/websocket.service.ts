@@ -1,0 +1,112 @@
+import { Injectable, WritableSignal, signal } from '@angular/core';
+
+import { Zone } from '../types/zone';
+import { single } from 'rxjs';
+
+export interface RECEIVE_MESSAGE {
+  IPID?: any;
+  buildingId: string;
+  channel?: string;
+  cmd: RECEIVE_CMD_TYPE;
+  cmdType: 'ToServer' | 'ToAll';
+  device: any;
+  jsonString: string;
+  processorId: string;
+  value: number;
+  zoneId: string;
+}
+
+export enum SEND_CMD_TYPE {
+  SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAllSensor',
+}
+
+export enum RECEIVE_CMD_TYPE {
+  ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
+}
+
+export interface CMD {
+  cmd: string;
+  buildingId: number;
+  processorId: number;
+  zoneId: string;
+  value: string;
+  jsonString: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class WebsocketService {
+  protected readonly URL = 'ws://103.247.167.186:5004/wsapi';
+
+  readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE|undefined> = signal(undefined);
+
+  private messagesSignal: WritableSignal<string[]> = signal([]);
+
+  private socket: WebSocket | undefined;
+
+  constructor() {}
+
+  connect() {
+    this.socket = new WebSocket(this.URL);
+
+    this.socket.onopen = () => {
+      console.info('Connect to Web Socket');
+    };
+
+    this.socket.onmessage = event => {
+      console.log('Message received:', JSON.parse(event.data));
+
+      this.categorizeReceiveMsg(JSON.parse(event.data));
+
+      this.messagesSignal.update(msgs => [...msgs, event.data]);
+    };
+
+    this.socket.onerror = error => {
+      console.error('WebSocket error:', error);
+    };
+
+    this.socket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+  }
+
+  // Actions: Receive Message
+
+  categorizeReceiveMsg(receiveMsg: RECEIVE_MESSAGE) {
+    switch (receiveMsg.cmd) {
+      case RECEIVE_CMD_TYPE.ZONE_BYPASS_ALL_SENSOR:
+        this.bypassAllSensorListensor.set(receiveMsg);
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Actions: Bypass
+
+  updateBypassStatus(zoneData: any) {
+    const cmd: CMD = {
+      cmd: SEND_CMD_TYPE.SET_ZONE_BYPASS_ALL_SENSOR,
+      buildingId: zoneData.buildingId,
+      processorId: 0,
+      zoneId: zoneData.zoneId ?? '',
+      value: JSON.stringify(zoneData.bypassOccupancySensor),
+      jsonString: JSON.stringify(zoneData),
+    };
+
+    this.sendMessage(JSON.stringify(cmd));
+  }
+
+  sendMessage(message: string): void {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(message);
+    } else {
+      console.error('WebSocket is not open');
+    }
+  }
+
+  close(): void {
+    this.socket?.close();
+  }
+}

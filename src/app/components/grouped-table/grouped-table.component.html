@@ -79,15 +79,16 @@
     <ng-container matColumnDef="ccmsControl">
       <th mat-header-cell *matHeaderCellDef>CCMS Conctrol</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="element.isCcmsZone"
-          (toggleValueChange)="toggleLightStatus($event, element.lightting)"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="(element.isCcmsZone === 1) && (element.isOn === 1)"
+          (toggleValueChange)="toggleCCMSStatus($event, element)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="clmsControl">
       <th class="column-large" mat-header-cell *matHeaderCellDef>CLMS Control</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="!element.isCcmsZone"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol
+          [toggleValue]="(element.isCcmsZone !== 1) && (element.isOn === 1)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 

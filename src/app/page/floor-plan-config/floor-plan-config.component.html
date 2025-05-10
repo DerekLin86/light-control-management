@@ -8,7 +8,8 @@
   <div class="right-side-container" [style.marginLeft.px]="marginWidth">
     <app-grouped-table
       [floorRawData]="floorRawData()"
-      (setZoneBypassAllSensor)="updateBypassStatus($event)" />
+      (setZoneBypassAllSensor)="updateBypassStatus($event)"
+      (setIsCcmsStatus)="updateCCMSStatus($event)" />
   </div>
 }
 

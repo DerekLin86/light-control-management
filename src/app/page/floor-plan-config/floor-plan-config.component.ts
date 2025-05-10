@@ -21,7 +21,7 @@ import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher
 import { MOCK_ZONE_DATA } from '../../constants/floorPlan';
 import { WebsocketService, RECEIVE_MESSAGE } from '../../services/websocket.service';
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
-
+import { getCurrentDateString } from '../../utils/core/date_utils';
 import { normalizeFloorPlanData } from '../../utils/floor-plan/floor-plan-utils';
 import { Zone } from '../../types/zone';
 
@@ -53,6 +53,10 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   constructor() {
     effect(() => {
       this.flushBypassStatus(this.websocketService.bypassAllSensorListensor());
+    });
+
+    effect(() => {
+      this.flushLightLevelStatus(this.websocketService.lightLevelStatusListensor());
     });
   }
 
@@ -180,6 +184,33 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
               ...zone,
               bypassOccupancySensor: message.value,
               bypassDaylightSensor: message.value,
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
+  // Actions: CCMS
+  updateCCMSStatus(updateZoneData: Zone) {
+    this.websocketService.updateCcmsStatus(updateZoneData);
+  }
+
+  private flushLightLevelStatus(message: RECEIVE_MESSAGE | undefined) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    const zoneData = JSON.parse(message.jsonString);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              isOn: zoneData.isOn,
+              lightLevel: message.value,
+              targetOnLevel: zoneData.targetOnLevel,
+              lastUpdate: getCurrentDateString(),
             } as Zone)
           : zone;
       })

@@ -57,6 +57,7 @@ export class GroupedTableComponent implements OnInit {
 
   // output
   setZoneBypassAllSensorOutput = output<Zone>({ alias: 'setZoneBypassAllSensor' });
+  setIsCcmsStatusOutput = output<Zone>({ alias: 'setIsCcmsStatus' });
 
   ngOnInit() {}
 
@@ -100,8 +101,16 @@ export class GroupedTableComponent implements OnInit {
       bypassDaylightSensorAt: currentDate,
     };
 
-    console.info(request);
-
     this.setZoneBypassAllSensorOutput.emit(request);
+  }
+
+  toggleCCMSStatus(status: boolean, zone: Zone) {
+    const request: Zone = {
+      ...zone,
+      CcmsControlStatus: status ? 2 : 3,
+      isOn: status ? 1 : 0,
+      lightLevel: status ? zone.targetOnLevel : 0,
+    };
+    this.setIsCcmsStatusOutput.emit(request);
   }
 }

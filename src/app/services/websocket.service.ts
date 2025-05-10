@@ -1,7 +1,6 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
 
 import { Zone } from '../types/zone';
-import { single } from 'rxjs';
 
 export interface RECEIVE_MESSAGE {
   IPID?: any;
@@ -18,10 +17,12 @@ export interface RECEIVE_MESSAGE {
 
 export enum SEND_CMD_TYPE {
   SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAllSensor',
+  SET_CCMS_CONTROL_STATUS = 'setCcmsControlStatus',
 }
 
 export enum RECEIVE_CMD_TYPE {
   ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
+  ZONE_LIGHT_LEVEL_STATUS = 'zoneLightLevelStatus',
 }
 
 export interface CMD {
@@ -39,7 +40,10 @@ export interface CMD {
 export class WebsocketService {
   protected readonly URL = 'ws://103.247.167.186:5004/wsapi';
 
-  readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE|undefined> = signal(undefined);
+  readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
+  readonly lightLevelStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
 
   private messagesSignal: WritableSignal<string[]> = signal([]);
 
@@ -78,6 +82,9 @@ export class WebsocketService {
       case RECEIVE_CMD_TYPE.ZONE_BYPASS_ALL_SENSOR:
         this.bypassAllSensorListensor.set(receiveMsg);
         break;
+      case RECEIVE_CMD_TYPE.ZONE_LIGHT_LEVEL_STATUS:
+        this.lightLevelStatusListensor.set(receiveMsg);
+        break;
       default:
         break;
     }
@@ -92,6 +99,21 @@ export class WebsocketService {
       processorId: 0,
       zoneId: zoneData.zoneId ?? '',
       value: JSON.stringify(zoneData.bypassOccupancySensor),
+      jsonString: JSON.stringify(zoneData),
+    };
+
+    this.sendMessage(JSON.stringify(cmd));
+  }
+
+  // Actions: CCMS
+
+  updateCcmsStatus(zoneData: Zone) {
+    const cmd: CMD = {
+      cmd: SEND_CMD_TYPE.SET_CCMS_CONTROL_STATUS,
+      buildingId: zoneData.buildingId,
+      processorId: 0,
+      zoneId: zoneData.zoneId ?? '',
+      value: JSON.stringify(zoneData.isOn),
       jsonString: JSON.stringify(zoneData),
     };
 

@@ -58,6 +58,7 @@ export class GroupedTableComponent implements OnInit {
   // output
   setZoneBypassAllSensorOutput = output<Zone>({ alias: 'setZoneBypassAllSensor' });
   setIsCcmsStatusOutput = output<Zone>({ alias: 'setIsCcmsStatus' });
+  setZoneOnOffOutput = output<Zone>({ alias: 'setZoneOnOff' });
 
   ngOnInit() {}
 
@@ -112,5 +113,15 @@ export class GroupedTableComponent implements OnInit {
       lightLevel: status ? zone.targetOnLevel : 0,
     };
     this.setIsCcmsStatusOutput.emit(request);
+  }
+
+  toggleZoneOnOff(status: boolean, zone: Zone) {
+    const request: Zone = {
+      ...zone,
+      isOn: status ? 1 : 0,
+      processorId: 0,
+      lightLevel: zone.lightLevel,
+    };
+    this.setZoneOnOffOutput.emit(request);
   }
 }

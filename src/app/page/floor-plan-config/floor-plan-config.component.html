@@ -9,7 +9,8 @@
     <app-grouped-table
       [floorRawData]="floorRawData()"
       (setZoneBypassAllSensor)="updateBypassStatus($event)"
-      (setIsCcmsStatus)="updateCCMSStatus($event)" />
+      (setIsCcmsStatus)="updateCCMSStatus($event)"
+      (setZoneOnOff)="updateZoneOnOff($event)"/>
   </div>
 }
 

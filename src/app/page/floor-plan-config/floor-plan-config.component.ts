@@ -52,6 +52,10 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   constructor() {
     effect(() => {
+      this.flushZoneOnOff(this.websocketService.zoneOnOffStatusListensor());
+    });
+
+    effect(() => {
       this.flushBypassStatus(this.websocketService.bypassAllSensorListensor());
     });
 
@@ -162,6 +166,28 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
       });
   }
 
+  // Actions: Zone on off
+  private flushZoneOnOff(message?: RECEIVE_MESSAGE) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    const zoneData = JSON.parse(message.jsonString);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              isOn: zoneData.isOn,
+              lightLevel: zoneData.lightLevel,
+              lastUpdate: getCurrentDateString(),
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
   // Actions: bypass
   updateBypassStatus(updatedZoneData: Zone) {
     const request = {
@@ -217,6 +243,11 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     );
   }
 
+  // Actions: CLMS
+
+  updateZoneOnOff(updateZoneData: Zone) {
+    this.websocketService.updateZoneOnOff(updateZoneData);
+  }
   // Getters
 
   get currentBuildingId() {

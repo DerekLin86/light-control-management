@@ -18,9 +18,11 @@ export interface RECEIVE_MESSAGE {
 export enum SEND_CMD_TYPE {
   SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAllSensor',
   SET_CCMS_CONTROL_STATUS = 'setCcmsControlStatus',
+  SET_ZONE_ON_OFF = 'setZoneOnOff',
 }
 
 export enum RECEIVE_CMD_TYPE {
+  ZONE_OF_OFF_STATUS = 'zoneOnOffStatus',
   ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
   ZONE_LIGHT_LEVEL_STATUS = 'zoneLightLevelStatus',
 }
@@ -40,6 +42,8 @@ export interface CMD {
 export class WebsocketService {
   protected readonly URL = 'ws://103.247.167.186:5004/wsapi';
 
+  readonly zoneOnOffStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
   readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
     signal(undefined);
   readonly lightLevelStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
@@ -79,6 +83,9 @@ export class WebsocketService {
 
   categorizeReceiveMsg(receiveMsg: RECEIVE_MESSAGE) {
     switch (receiveMsg.cmd) {
+      case RECEIVE_CMD_TYPE.ZONE_OF_OFF_STATUS:
+        this.zoneOnOffStatusListensor.set(receiveMsg);
+        break;
       case RECEIVE_CMD_TYPE.ZONE_BYPASS_ALL_SENSOR:
         this.bypassAllSensorListensor.set(receiveMsg);
         break;
@@ -112,6 +119,21 @@ export class WebsocketService {
       cmd: SEND_CMD_TYPE.SET_CCMS_CONTROL_STATUS,
       buildingId: zoneData.buildingId,
       processorId: 0,
+      zoneId: zoneData.zoneId ?? '',
+      value: JSON.stringify(zoneData.isOn),
+      jsonString: JSON.stringify(zoneData),
+    };
+
+    this.sendMessage(JSON.stringify(cmd));
+  }
+
+  // Action: CLMS
+
+  updateZoneOnOff(zoneData: Zone) {
+    const cmd: CMD = {
+      cmd: SEND_CMD_TYPE.SET_ZONE_ON_OFF,
+      buildingId: zoneData.buildingId,
+      processorId: zoneData.processorId,
       zoneId: zoneData.zoneId ?? '',
       value: JSON.stringify(zoneData.isOn),
       jsonString: JSON.stringify(zoneData),

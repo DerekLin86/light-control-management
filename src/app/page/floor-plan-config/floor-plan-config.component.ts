@@ -248,6 +248,12 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   updateZoneOnOff(updateZoneData: Zone) {
     this.websocketService.updateZoneOnOff(updateZoneData);
   }
+  // Actions: Occ
+
+  updateOccSensorEnable(updateZoneData: Zone) {
+    this.websocketService.updateZoneOccSensorEnable(updateZoneData);
+  }
+
   // Getters
 
   get currentBuildingId() {

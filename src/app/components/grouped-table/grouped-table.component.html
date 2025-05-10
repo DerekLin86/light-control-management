@@ -119,7 +119,8 @@
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="element.occSensorEnable !== 1"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="element.occSensorEnable !== 1"
+          (toggleValueChange)="toggleOccSensorEnable($event, element)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 

@@ -19,6 +19,7 @@ export enum SEND_CMD_TYPE {
   SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAllSensor',
   SET_CCMS_CONTROL_STATUS = 'setCcmsControlStatus',
   SET_ZONE_ON_OFF = 'setZoneOnOff',
+  SET_ZONE_OCC_SENSOR_ENABLE = 'setZoneOccSensorEnable',
 }
 
 export enum RECEIVE_CMD_TYPE {
@@ -136,6 +137,21 @@ export class WebsocketService {
       processorId: zoneData.processorId,
       zoneId: zoneData.zoneId ?? '',
       value: JSON.stringify(zoneData.isOn),
+      jsonString: JSON.stringify(zoneData),
+    };
+
+    this.sendMessage(JSON.stringify(cmd));
+  }
+
+  // Actions: Occ
+
+  updateZoneOccSensorEnable(zoneData: Zone) {
+    const cmd: CMD = {
+      cmd: SEND_CMD_TYPE.SET_ZONE_OCC_SENSOR_ENABLE,
+      buildingId: zoneData.buildingId,
+      processorId: zoneData.processorId,
+      zoneId: zoneData.zoneId ?? '',
+      value: zoneData.OccSensorEnable,
       jsonString: JSON.stringify(zoneData),
     };
 

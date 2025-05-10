@@ -60,6 +60,7 @@ export class GroupedTableComponent implements OnInit {
   setIsCcmsStatusOutput = output<Zone>({ alias: 'setIsCcmsStatus' });
   setZoneOnOffOutput = output<Zone>({ alias: 'setZoneOnOff' });
   setOccSenorEnableOutput = output<Zone>({ alias: 'setOccSenorEnable' });
+  setZoneDaylightSensorEnableOutput = output<Zone>({ alias: 'setZoneDaylightSensorEnable' });
 
   ngOnInit() {}
 
@@ -134,5 +135,15 @@ export class GroupedTableComponent implements OnInit {
     };
 
     this.setOccSenorEnableOutput.emit(request);
+  }
+
+  toggleDaylightSensorEnable(status: boolean, zone: Zone) {
+    const request: Zone = {
+      ...zone,
+      DaylightSensorEnable: status ? 1 : 0,
+      processorId: 0,
+    };
+
+    this.setZoneDaylightSensorEnableOutput.emit(request);
   }
 }

@@ -20,6 +20,7 @@ export enum SEND_CMD_TYPE {
   SET_CCMS_CONTROL_STATUS = 'setCcmsControlStatus',
   SET_ZONE_ON_OFF = 'setZoneOnOff',
   SET_ZONE_OCC_SENSOR_ENABLE = 'setZoneOccSensorEnable',
+  SET_ZONE_DAYLIGHT_SENSOR_ENABLE = 'setZoneDaylightSensorEnable',
 }
 
 export enum RECEIVE_CMD_TYPE {
@@ -33,7 +34,7 @@ export interface CMD {
   buildingId: number;
   processorId: number;
   zoneId: string;
-  value: string;
+  value: string | number;
   jsonString: string;
 }
 
@@ -151,7 +152,22 @@ export class WebsocketService {
       buildingId: zoneData.buildingId,
       processorId: zoneData.processorId,
       zoneId: zoneData.zoneId ?? '',
-      value: zoneData.OccSensorEnable,
+      value: Number(zoneData.OccSensorEnable),
+      jsonString: JSON.stringify(zoneData),
+    };
+
+    this.sendMessage(JSON.stringify(cmd));
+  }
+
+  // Acctions: Daylight
+
+  updateZoneDaylightSensorEnable(zoneData: Zone) {
+    const cmd: CMD = {
+      cmd: SEND_CMD_TYPE.SET_ZONE_DAYLIGHT_SENSOR_ENABLE,
+      buildingId: zoneData.buildingId,
+      processorId: zoneData.processorId,
+      zoneId: zoneData.zoneId ?? '',
+      value: Number(zoneData.DaylightSensorEnable),
       jsonString: JSON.stringify(zoneData),
     };
 

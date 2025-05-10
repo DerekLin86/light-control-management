@@ -156,7 +156,8 @@
       <th mat-header-cell *matHeaderCellDef>Control</th>
 
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="element.DaylightSensorEnable !== 1"></app-slider-toggle-formcontrol>
+        <app-slider-toggle-formcontrol [toggleValue]="element.DaylightSensorEnable !== 1"
+          (toggleValueChange)="toggleDaylightSensorEnable($event, element)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
 

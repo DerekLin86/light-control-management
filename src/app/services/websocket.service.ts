@@ -25,8 +25,11 @@ export enum SEND_CMD_TYPE {
 
 export enum RECEIVE_CMD_TYPE {
   ZONE_OF_OFF_STATUS = 'zoneOnOffStatus',
-  ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
   ZONE_LIGHT_LEVEL_STATUS = 'zoneLightLevelStatus',
+  ZONE_OCCUPIED_STATUS = 'zoneOccupiedStatus',
+  ZONE_BYPASS_OCC_SENSOR_STATUS = 'zoneBypassOccSensorStatus',
+  ZONE_BYPASS_DAYLIGHT_SENSOR_STATUS = 'zoneBypassDaylightSensorStatus',
+  ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
 }
 
 export interface CMD {
@@ -49,6 +52,12 @@ export class WebsocketService {
   readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
     signal(undefined);
   readonly lightLevelStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
+  readonly zoneOccupiedStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
+  readonly zoneBypassOccSensorStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
+    signal(undefined);
+  readonly zoneBypassDaylightSensorStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
     signal(undefined);
 
   private messagesSignal: WritableSignal<string[]> = signal([]);
@@ -87,6 +96,15 @@ export class WebsocketService {
     switch (receiveMsg.cmd) {
       case RECEIVE_CMD_TYPE.ZONE_OF_OFF_STATUS:
         this.zoneOnOffStatusListensor.set(receiveMsg);
+        break;
+      case RECEIVE_CMD_TYPE.ZONE_OCCUPIED_STATUS:
+        this.zoneOccupiedStatusListensor.set(receiveMsg);
+        break;
+      case RECEIVE_CMD_TYPE.ZONE_BYPASS_DAYLIGHT_SENSOR_STATUS:
+        this.zoneBypassDaylightSensorStatusListensor.set(receiveMsg);
+        break;
+      case RECEIVE_CMD_TYPE.ZONE_BYPASS_OCC_SENSOR_STATUS:
+        this.zoneBypassOccSensorStatusListensor.set(receiveMsg);
         break;
       case RECEIVE_CMD_TYPE.ZONE_BYPASS_ALL_SENSOR:
         this.bypassAllSensorListensor.set(receiveMsg);

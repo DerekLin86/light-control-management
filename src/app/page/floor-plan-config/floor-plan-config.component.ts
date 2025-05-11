@@ -62,6 +62,22 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     effect(() => {
       this.flushLightLevelStatus(this.websocketService.lightLevelStatusListensor());
     });
+
+    effect(() => {
+      this.flushZoneOccupiedStatusListensor(this.websocketService.zoneOccupiedStatusListensor());
+    });
+
+    effect(() => {
+      this.flushZoneBypassOccSensorStatus(
+        this.websocketService.zoneBypassOccSensorStatusListensor()
+      );
+    });
+
+    effect(() => {
+      this.flushZoneBypassDaylightSensorStatus(
+        this.websocketService.zoneBypassDaylightSensorStatusListensor()
+      );
+    });
   }
 
   ngOnInit(): void {
@@ -216,6 +232,42 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     );
   }
 
+  private flushZoneBypassOccSensorStatus(message?: RECEIVE_MESSAGE) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              bypassOccupancySensor: Number(message.value),
+              lastUpdate: getCurrentDateString(),
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
+  private flushZoneBypassDaylightSensorStatus(message?: RECEIVE_MESSAGE) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              bypassDaylightSensor: Number(message.value),
+              lastUpdate: getCurrentDateString(),
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
   // Actions: CCMS
   updateCCMSStatus(updateZoneData: Zone) {
     this.websocketService.updateCcmsStatus(updateZoneData);
@@ -259,6 +311,26 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   updateDaylightSensorEnable(updateZoneData: Zone) {
     this.websocketService.updateZoneDaylightSensorEnable(updateZoneData);
+  }
+
+  // Actions: Occupied
+
+  private flushZoneOccupiedStatusListensor(message?: RECEIVE_MESSAGE) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              occupied: Number(message.value),
+              lastUpdate: getCurrentDateString(),
+            } as Zone)
+          : zone;
+      })
+    );
   }
 
   // Getters

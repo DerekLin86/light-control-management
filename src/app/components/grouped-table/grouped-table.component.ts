@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, output, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -61,6 +61,16 @@ export class GroupedTableComponent implements OnInit {
   setZoneOnOffOutput = output<Zone>({ alias: 'setZoneOnOff' });
   setOccSenorEnableOutput = output<Zone>({ alias: 'setOccSenorEnable' });
   setZoneDaylightSensorEnableOutput = output<Zone>({ alias: 'setZoneDaylightSensorEnable' });
+
+  // Computed
+  processData = computed(() => {
+    return this.floorRawData().map(zoneData => {
+      return {
+        ...zoneData,
+        isCcmsZoneMode: zoneData.isCcmsZone === 1 && typeof zoneData.CcmsControlStatus === 'number',
+      };
+    });
+  });
 
   ngOnInit() {}
 

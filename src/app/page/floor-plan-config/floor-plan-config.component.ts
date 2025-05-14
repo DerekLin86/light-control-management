@@ -271,6 +271,16 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   // Actions: CCMS
   updateCCMSStatus(updateZoneData: Zone) {
     this.websocketService.updateCcmsStatus(updateZoneData);
+
+    this.floorRawData.update(currentZoneList => {
+      return currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(updateZoneData.zoneId)
+          ? {
+              ...updateZoneData,
+            }
+          : zone;
+      });
+    });
   }
 
   private flushLightLevelStatus(message: RECEIVE_MESSAGE | undefined) {

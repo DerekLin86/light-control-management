@@ -13,6 +13,7 @@ import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
 import { FloorPlanData, LightingSetting, OccupancyStatus } from '../../types/floorPlan';
 import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
 import { SensitivityToDisplayNamePipes } from '../../Pipes/sensitivity.pipe';
+import {DaylightStatusComponent} from '../daylight-status/daylight-status.component'
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
 
 @Component({
@@ -20,6 +21,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
   imports: [
     DeviceTypeToDisplayNamePipes,
     DatePipe,
+    DaylightStatusComponent,
     MatButtonModule,
     MatTableModule,
     MatTooltipModule,

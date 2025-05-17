@@ -162,7 +162,7 @@
       </th>
       <td mat-cell *matCellDef="let element">
         @if (element.haveDaylight === 1) {
-        <app-light-status [lightStatus]="element.DaylightSensorEnable === 1"></app-light-status>
+          <app-daylight-status [status]="element.DaylightSensorEnable === 1"></app-daylight-status>
         }
       </td>
     </ng-container>

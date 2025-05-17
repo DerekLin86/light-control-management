@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: center;
+
+  .light-on {
+      fill: #57B37F;
+  }
+
+  .light-off {
+    fill: #D9D9D9;
+  }
+}

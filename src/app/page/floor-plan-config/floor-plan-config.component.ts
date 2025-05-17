@@ -315,6 +315,16 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   updateOccSensorEnable(updateZoneData: Zone) {
     this.websocketService.updateZoneOccSensorEnable(updateZoneData);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(updateZoneData.zoneId)
+          ? {
+              ...updateZoneData,
+            }
+          : zone;
+      })
+    );
   }
 
   // Actions: Daylight

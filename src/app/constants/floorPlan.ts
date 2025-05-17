@@ -25,7 +25,7 @@ export const MOCK_ZONE_DATA: Zone[] = Array.from({ length: DATA_NUMBER }, (_, i)
       thirdPartyType: i,
       zoneTypeName: `${['A', 'B', 'C', 'D', 'E', 'F', 'G'][i % 7]}` as DeviceType,
     },
-    haveOcc: (i + 1) % 2 === 1 ? 0 : 1,
+    haveOCC: (i + 1) % 2 === 1 ? 0 : 1,
     hasDaylight: (i + 1) % 2 === 1 ? 0 : 1,
     bypassOccupancySensor: (i + 1) % 2 === 1 ? 0 : 1,
     bypassOccupancySensorAt: new Date(),

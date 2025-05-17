@@ -89,7 +89,7 @@
     <ng-container matColumnDef="clmsControl">
       <th class="column-large" mat-header-cell *matHeaderCellDef>CLMS Control</th>
       <td mat-cell *matCellDef="let element">
-        @if (element.isCcmsZoneMode) {
+        @if (!element.isCcmsZoneMode) {
         <app-slider-toggle-formcontrol [toggleValue]="(element.CcmsControlStatus === 3)"
           (toggleValueChange)="toggleZoneOnOff($event, element)"></app-slider-toggle-formcontrol>
         }
@@ -115,26 +115,36 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-occupancy-chip [status]="element.occupied"></app-occupancy-chip>
+        @if (element.hasOccupied) {
+        <app-occupancy-chip [status]="element.occupied === 1 ? occupancyStatus.ACC : occupancyStatus.OCC"></app-occupancy-chip>
+        }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="element.occSensorEnable !== 1"
+        @if (element.hasOccupied) {
+        <app-slider-toggle-formcontrol [toggleValue]="element.OccSensorEnable === 1"
           (toggleValueChange)="toggleOccSensorEnable($event, element)"></app-slider-toggle-formcontrol>
+        }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="timeout">
       <th mat-header-cell *matHeaderCellDef> Timeout Period</th>
-      <td mat-cell *matCellDef="let element">{{element.occupancySensorTimeout ?? '0'}} (sec)</td>
+      <td mat-cell *matCellDef="let element">
+        @if (element.hasOccupied) {
+        {{element.occupancySensorTimeout ?? '0'}} (sec)
+        }</td>
     </ng-container>
 
     <ng-container matColumnDef="sensitivity">
       <th mat-header-cell *matHeaderCellDef>Sensitivity</th>
-      <td mat-cell *matCellDef="let element">{{element.ultraOccupancySensitivity | sensitivityToDisplayName }}</td>
+      <td mat-cell *matCellDef="let element">
+        @if (element.hasOccupied) {
+        {{element.ultraOccupancySensitivity | sensitivityToDisplayName }}
+        }</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="occupancyColumn sticky: true"></tr>
@@ -151,27 +161,37 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-light-status [lightStatus]="true"></app-light-status>
+        @if (element.haveDaylight === 1) {
+        <app-light-status [lightStatus]="element.DaylightSensorEnable === 1"></app-light-status>
+        }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="control">
       <th mat-header-cell *matHeaderCellDef>Control</th>
-
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="element.DaylightSensorEnable !== 1"
+        @if (element.haveDaylight === 1) {
+        <app-slider-toggle-formcontrol [toggleValue]="element.DaylightSensorEnable === 1"
           (toggleValueChange)="toggleDaylightSensorEnable($event, element)"></app-slider-toggle-formcontrol>
+        }
       </td>
     </ng-container>
 
     <ng-container matColumnDef="targetLux">
       <th class="column-medium" mat-header-cell *matHeaderCellDef>Target Lux</th>
-      <td mat-cell *matCellDef="let element">{{ element.targetLuxLevel ?? 'N/A' }}</td>
+      <td mat-cell *matCellDef="let element">
+        @if (element.haveDaylight === 1) {
+        {{ element.targetLuxLevel ?? 'N/A' }}
+        }
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th class="column-medium" mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.zoneType.isOutdoor ? 'Outdoor' : 'Indoor'}}</td>
+      <td mat-cell *matCellDef="let element">
+        @if (element.haveDaylight === 1) {
+        {{ element.zoneType.isOutdoor ? 'Outdoor' : 'Indoor'}}
+        }</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="daylightColumn sticky: true"></tr>

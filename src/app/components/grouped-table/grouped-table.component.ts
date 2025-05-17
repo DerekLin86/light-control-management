@@ -10,7 +10,7 @@ import { ScheduleStatusComponent } from '../schedule-status/schedule-status.comp
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
 import { LightStatusComponent } from '../light-status/light-status.component';
 import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
-import { FloorPlanData, LightingSetting } from '../../types/floorPlan';
+import { FloorPlanData, LightingSetting, OccupancyStatus } from '../../types/floorPlan';
 import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
 import { SensitivityToDisplayNamePipes } from '../../Pipes/sensitivity.pipe';
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
@@ -67,10 +67,15 @@ export class GroupedTableComponent implements OnInit {
     return this.floorRawData().map(zoneData => {
       return {
         ...zoneData,
+        hasOccupied: zoneData.haveOCC === 1,
         isCcmsZoneMode: zoneData.isCcmsZone === 1 && typeof zoneData.CcmsControlStatus === 'number',
       };
     });
   });
+
+  // Type
+
+  readonly occupancyStatus = OccupancyStatus;
 
   ngOnInit() {}
 
@@ -83,9 +88,9 @@ export class GroupedTableComponent implements OnInit {
   }
 
   getBypassStatus(zone: Zone) {
-    if (zone.haveOcc === 0 && !(zone.hasDaylight === 0)) {
+    if (zone.haveOCC === 0 && !(zone.hasDaylight === 0)) {
       return zone.bypassOccupancySensor === 1;
-    } else if (!(zone.haveOcc === 0) && zone.hasDaylight === 0) {
+    } else if (!(zone.haveOCC === 0) && zone.hasDaylight === 0) {
       return zone.bypassDaylightSensor === 1;
     } else {
       return zone.bypassOccupancySensor === 1 && zone.bypassDaylightSensor === 1;
@@ -93,9 +98,9 @@ export class GroupedTableComponent implements OnInit {
   }
 
   getBypasstimer(zone: Zone) {
-    if (zone.haveOcc && !zone.hasDaylight) {
+    if (zone.haveOCC && !zone.hasDaylight) {
       return zone.bypassOccupancySensorAt;
-    } else if (!zone.haveOcc && zone.hasDaylight) {
+    } else if (!zone.haveOCC && zone.hasDaylight) {
       return zone.bypassDaylightSensorAt;
     } else {
       return zone.bypassOccupancySensorAt;

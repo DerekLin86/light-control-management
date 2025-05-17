@@ -15,7 +15,7 @@ export interface ServerZone {
   description: string;
   zoneType: string;
   // schedule => not ready
-  haveOcc: 0 | 1;
+  haveOCC: 0 | 1;
   hasDaylight: 0 | 1;
   bypassOccupancySensor?: any;
   bypassOccupancySensorAt?: any;
@@ -81,7 +81,7 @@ export interface Zone {
     zoneTypeName: DeviceType;
   };
   // schedule => not ready
-  haveOcc: 0 | 1;
+  haveOCC: 0 | 1;
   hasDaylight: 0 | 1;
   bypassOccupancySensor?: 0 | 1;
   bypassOccupancySensorAt?: Date;

@@ -54,7 +54,7 @@
     <ng-container matColumnDef="bypassTimer">
       <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
       <td mat-cell *matCellDef="let element">
-        {{ getBypasstimer(element) ? (getBypasstimer(element) | date: 'mediumDate') : 'N/A' }}
+        {{ getBypasstimer(element) ? getBypasstimer(element): 'N/A' }}
       </td>
     </ng-container>
 

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit, input, output, computed } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DecimalPipe, DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Zone } from '../../types/zone';
+import { DateDiffPipe } from '../../Pipes/date-diff.pipe';
 import { DeviceTypeToDisplayNamePipes } from '../../Pipes/device_type_pipes.pipe';
 import { ScheduleStatusComponent } from '../schedule-status/schedule-status.component';
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
@@ -13,13 +14,15 @@ import { MOCK_LIGHT_DATA } from '../../constants/floorPlan';
 import { FloorPlanData, LightingSetting, OccupancyStatus } from '../../types/floorPlan';
 import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
 import { SensitivityToDisplayNamePipes } from '../../Pipes/sensitivity.pipe';
-import {DaylightStatusComponent} from '../daylight-status/daylight-status.component'
+import { DaylightStatusComponent } from '../daylight-status/daylight-status.component';
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
 
 @Component({
   selector: 'app-grouped-table',
   imports: [
     DeviceTypeToDisplayNamePipes,
+    DecimalPipe,
+    DateDiffPipe,
     DatePipe,
     DaylightStatusComponent,
     MatButtonModule,
@@ -66,6 +69,7 @@ export class GroupedTableComponent implements OnInit {
 
   // Computed
   processData = computed(() => {
+    const currentDate = new Date();
     return this.floorRawData().map(zoneData => {
       return {
         ...zoneData,
@@ -100,12 +104,26 @@ export class GroupedTableComponent implements OnInit {
   }
 
   getBypasstimer(zone: Zone) {
+    const currentDate = new Date();
+    const dateDiffPipe = new DateDiffPipe();
     if (zone.haveOCC && !zone.hasDaylight) {
-      return zone.bypassOccupancySensorAt;
+      return !!zone.bypassOccupancySensorAt && zone.bypassOccupancySensorAt.length > 0
+        ? dateDiffPipe.transform({
+            start: new Date(zone.bypassOccupancySensorAt),
+            end: currentDate,
+          })
+        : undefined;
     } else if (!zone.haveOCC && zone.hasDaylight) {
-      return zone.bypassDaylightSensorAt;
+      return !!zone.bypassDaylightSensorAt && zone.bypassDaylightSensorAt.length > 0
+        ? dateDiffPipe.transform({ start: new Date(zone.bypassDaylightSensorAt), end: currentDate })
+        : undefined;
     } else {
-      return zone.bypassOccupancySensorAt;
+      return !!zone.bypassOccupancySensorAt && zone.bypassOccupancySensorAt.length > 0
+        ? dateDiffPipe.transform({
+            start: new Date(zone.bypassOccupancySensorAt),
+            end: currentDate,
+          })
+        : undefined;
     }
   }
 
@@ -117,8 +135,8 @@ export class GroupedTableComponent implements OnInit {
       ...zone,
       bypassOccupancySensor: status ? 0 : 1,
       bypassDaylightSensor: status ? 0 : 1,
-      bypassOccupancySensorAt: currentDate,
-      bypassDaylightSensorAt: currentDate,
+      bypassOccupancySensorAt: currentDate.toString(),
+      bypassDaylightSensorAt: currentDate.toString(),
     };
 
     this.setZoneBypassAllSensorOutput.emit(request);

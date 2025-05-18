@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, input, output, computed } from '@angular/core';
-import { DecimalPipe, DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -21,9 +20,6 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
   selector: 'app-grouped-table',
   imports: [
     DeviceTypeToDisplayNamePipes,
-    DecimalPipe,
-    DateDiffPipe,
-    DatePipe,
     DaylightStatusComponent,
     MatButtonModule,
     MatTableModule,

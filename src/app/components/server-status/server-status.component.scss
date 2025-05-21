@@ -1,0 +1,15 @@
+@use '../../../styles' as global;
+
+.basic-svg {
+  fill: global.$primary-text-grey-color;
+}
+.mat-mdc-button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: global.$primary-text-grey-color;
+  padding: 0;
+}
+
+.mat-mdc-icon-button svg {
+  --mdc-icon-button-icon-size: 30px
+}

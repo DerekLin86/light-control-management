@@ -47,6 +47,8 @@ export interface CMD {
 export class WebsocketService {
   protected readonly URL = 'ws://103.247.167.186:5004/wsapi';
 
+  readonly isOn = signal<boolean>(false);
+
   readonly zoneOnOffStatusListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
     signal(undefined);
   readonly bypassAllSensorListensor: WritableSignal<RECEIVE_MESSAGE | undefined> =
@@ -70,6 +72,7 @@ export class WebsocketService {
     this.socket = new WebSocket(this.URL);
 
     this.socket.onopen = () => {
+      this.isOn.set(true);
       console.info('Connect to Web Socket');
     };
 
@@ -86,6 +89,7 @@ export class WebsocketService {
     };
 
     this.socket.onclose = () => {
+      this.isOn.set(false);
       console.log('WebSocket connection closed');
     };
   }

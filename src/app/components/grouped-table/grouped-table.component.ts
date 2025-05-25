@@ -152,6 +152,7 @@ export class GroupedTableComponent implements OnInit {
     const request: Zone = {
       ...zone,
       isOn: status ? 1 : 0,
+      CcmsControlStatus: status ? 3 : 2,
       processorId: 0,
       lightLevel: zone.lightLevel,
     };

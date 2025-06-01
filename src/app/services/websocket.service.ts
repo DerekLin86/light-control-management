@@ -4,7 +4,7 @@ import { Zone } from '../types/zone';
 
 export interface RECEIVE_MESSAGE {
   IPID?: any;
-  buildingId: string;
+  buildingId: number;
   channel?: string;
   cmd: RECEIVE_CMD_TYPE;
   cmdType: 'ToServer' | 'ToAll';
@@ -29,7 +29,7 @@ export enum RECEIVE_CMD_TYPE {
   ZONE_OCCUPIED_STATUS = 'zoneOccupiedStatus',
   ZONE_BYPASS_OCC_SENSOR_STATUS = 'zoneBypassOccSensorStatus',
   ZONE_BYPASS_DAYLIGHT_SENSOR_STATUS = 'zoneBypassDaylightSensorStatus',
-  ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllSensorStatus',
+  ZONE_BYPASS_ALL_SENSOR = 'zoneBypassAllStatus',
 }
 
 export interface CMD {

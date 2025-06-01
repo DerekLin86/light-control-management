@@ -236,8 +236,9 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
         return Number(zone.zoneId) === Number(message.zoneId)
           ? ({
               ...zone,
-              bypassOccupancySensor: message.value,
-              bypassDaylightSensor: message.value,
+              bypassAll: message.value ? 1 : 0,
+              bypassOccupancySensor: message.value ? 1 : 0,
+              bypassDaylightSensor: message.value ? 1 : 0,
             } as Zone)
           : zone;
       })

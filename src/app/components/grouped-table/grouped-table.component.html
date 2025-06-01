@@ -46,7 +46,7 @@
         </div>
       </th>
       <td mat-cell *matCellDef="let element">
-        <app-slider-toggle-formcontrol [toggleValue]="getBypassStatus(element)"
+        <app-slider-toggle-formcontrol [toggleValue]="element.bypassAll === 1"
           (toggleValueChange)="toggleBypassStatus($event, element)"></app-slider-toggle-formcontrol>
       </td>
     </ng-container>
@@ -54,7 +54,9 @@
     <ng-container matColumnDef="bypassTimer">
       <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
       <td mat-cell *matCellDef="let element">
-        {{ getBypasstimer(element) ? getBypasstimer(element): 'N/A' }}
+        @if (element.bypassAll === 1 && (typeof element.bypassAllEscapeSec === 'number')) {
+          <app-countdown [initialSeconds]="element.bypassAllEscapeSec ?? 0"></app-countdown>
+        }
       </td>
     </ng-container>
 

@@ -83,6 +83,8 @@ export interface Zone {
   // schedule => not ready
   haveOCC: 0 | 1;
   hasDaylight: 0 | 1;
+  bypassAll: 0 | 1;
+  bypassAllEscapeSec?: number;
   bypassOccupancySensor?: 0 | 1;
   bypassOccupancySensorAt?: string;
   bypassDaylightSensor: 0 | 1;

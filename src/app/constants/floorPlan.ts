@@ -42,6 +42,8 @@ export const MOCK_ZONE_DATA: Zone[] = Array.from({ length: DATA_NUMBER }, (_, i)
     targetLuxLevel: '5000',
     CcmsControlStatus: i,
     DaylightMinLevel: {},
+    bypassAll: (i + 1) % 2 === 1 ? 0 : 1,
+    bypassAllEscapeSec: 100,
     bypassTimeout: {},
     bypassTimeoutForDaylightSensor: {},
     bypassTimeoutForOccupancySensor: {},

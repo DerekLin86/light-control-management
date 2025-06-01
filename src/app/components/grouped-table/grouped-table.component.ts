@@ -14,6 +14,7 @@ import { FloorPlanData, LightingSetting, OccupancyStatus } from '../../types/flo
 import { OccupancyChipComponent } from '../occupancy-chip/occupancy-chip.component';
 import { SensitivityToDisplayNamePipes } from '../../Pipes/sensitivity.pipe';
 import { DaylightStatusComponent } from '../daylight-status/daylight-status.component';
+import { CountdownComponent } from '../countdown/countdown.component';
 import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcontrol/slider-toggle-formcontrol.component';
 
 @Component({
@@ -30,6 +31,7 @@ import { SliderTootgleFormcontrolComponent } from '../form/slider-toggle-formcon
     SliderTootgleFormcontrolComponent,
     SensitivityToDisplayNamePipes,
     ZoneStatusComponent,
+    CountdownComponent,
   ],
   standalone: true,
   templateUrl: './grouped-table.component.html',
@@ -129,6 +131,7 @@ export class GroupedTableComponent implements OnInit {
     const currentDate = new Date();
     const request: Zone = {
       ...zone,
+      bypassAll: status ? 1 : 0,
       bypassOccupancySensor: status ? 0 : 1,
       bypassDaylightSensor: status ? 0 : 1,
       bypassOccupancySensorAt: currentDate.toString(),

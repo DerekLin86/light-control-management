@@ -206,12 +206,24 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   // Actions: bypass
   updateBypassStatus(updatedZoneData: Zone) {
-    const request = {
-      ...updatedZoneData,
-      bypassOccupancySensor: updatedZoneData.bypassOccupancySensor ? 0 : 1,
-      bypassDaylightSensor: updatedZoneData.bypassDaylightSensor ? 0 : 1,
-    };
-    this.websocketService.updateBypassStatus(request);
+
+    this.websocketService.updateBypassStatus(updatedZoneData);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(updatedZoneData.zoneId)
+          ? ({
+              ...zone,
+              bypassAll: updatedZoneData.bypassAll,
+              bypassAllAt: updatedZoneData.bypassAllAt,
+              bypassOccupancySensor: updatedZoneData.bypassOccupancySensor,
+              bypassOccupancySensorAt: updatedZoneData.bypassOccupancySensorAt,
+              bypassDaylightSensor: updatedZoneData.bypassDaylightSensor,
+              bypassDaylightSensorAt: updatedZoneData.bypassDaylightSensorAt
+            } as Zone)
+          : zone;
+      })
+    );
   }
 
   private flushBypassStatus(message?: RECEIVE_MESSAGE) {

@@ -132,8 +132,9 @@ export class GroupedTableComponent implements OnInit {
     const request: Zone = {
       ...zone,
       bypassAll: status ? 1 : 0,
-      bypassOccupancySensor: status ? 0 : 1,
-      bypassDaylightSensor: status ? 0 : 1,
+      bypassOccupancySensor: status ? 1 : 0,
+      bypassDaylightSensor: status ? 1 : 0,
+      bypassAllAt: currentDate.toString(),
       bypassOccupancySensorAt: currentDate.toString(),
       bypassDaylightSensorAt: currentDate.toString(),
     };

@@ -84,6 +84,7 @@ export interface Zone {
   haveOCC: 0 | 1;
   hasDaylight: 0 | 1;
   bypassAll: 0 | 1;
+  bypassAllAt?: string;
   bypassAllEscapeSec?: number;
   bypassOccupancySensor?: 0 | 1;
   bypassOccupancySensorAt?: string;

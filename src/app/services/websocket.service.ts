@@ -16,7 +16,7 @@ export interface RECEIVE_MESSAGE {
 }
 
 export enum SEND_CMD_TYPE {
-  SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAllSensor',
+  SET_ZONE_BYPASS_ALL_SENSOR = 'setZoneBypassAll',
   SET_CCMS_CONTROL_STATUS = 'setCcmsControlStatus',
   SET_ZONE_ON_OFF = 'setZoneOnOff',
   SET_ZONE_OCC_SENSOR_ENABLE = 'setZoneOccSensorEnable',
@@ -129,7 +129,7 @@ export class WebsocketService {
       buildingId: zoneData.buildingId,
       processorId: 0,
       zoneId: zoneData.zoneId ?? '',
-      value: JSON.stringify(zoneData.bypassOccupancySensor),
+      value: JSON.stringify(zoneData.bypassAll),
       jsonString: JSON.stringify(zoneData),
     };
 

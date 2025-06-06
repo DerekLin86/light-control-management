@@ -1,1 +1,1 @@
-<mat-slide-toggle [(ngModel)]="toggleValue" (change)="toggleChange($event.checked)">{{ label }}</mat-slide-toggle>
+<mat-slide-toggle [formControl]="status" (change)="toggleChange($event.checked)">{{ label }}</mat-slide-toggle>

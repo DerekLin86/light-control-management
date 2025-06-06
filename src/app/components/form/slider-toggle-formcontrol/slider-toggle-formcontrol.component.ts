@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   forwardRef,
+  input,
+  effect,
   Input,
   Output,
   EventEmitter,
@@ -33,7 +35,9 @@ import { Subject } from 'rxjs';
 })
 export class SliderTootgleFormcontrolComponent implements ControlValueAccessor {
   @Input() label = '';
-  @Input() toggleValue = false;
+
+  readonly toggleValue = input(false);
+
   @Output() toggleValueChange = new EventEmitter<boolean>();
 
   readonly status = new FormControl<boolean>(false);
@@ -41,6 +45,12 @@ export class SliderTootgleFormcontrolComponent implements ControlValueAccessor {
   private destroy$ = new Subject<void>();
   private onChange: any = () => {};
   private onTouched: any = () => {};
+
+  constructor() {
+    effect(() => {
+      this.status.patchValue(this.toggleValue());
+    });
+  }
 
   writeValue(value: any): void {
     this.status.setValue(value);

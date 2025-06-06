@@ -17,3 +17,19 @@ export class DateDiffPipe implements PipeTransform {
     );
   }
 }
+@Pipe({
+  name: 'timeFormater'
+})
+export class TimeFormater implements PipeTransform {
+  transform(totalSeconds: number) {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return (
+      (hours > 0 ? `${hours}hour${hours > 1 ? 's ' : ' '}` : '') +
+      (minutes > 0 ? `${minutes}minute${minutes > 1 ? 's ' : ' '}` : '') +
+      (seconds > 0 ? `${seconds}second${seconds > 1 ? 's ' : ' '}` : '')
+    );
+  }
+}

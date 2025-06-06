@@ -8,9 +8,11 @@ import {
   inject,
 } from '@angular/core';
 
+import {TimeFormater} from '../../Pipes/date-diff.pipe'
+
 @Component({
   selector: 'app-countdown',
-  imports: [],
+  imports: [TimeFormater],
   templateUrl: './countdown.component.html',
   styleUrl: './countdown.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

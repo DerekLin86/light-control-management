@@ -90,6 +90,8 @@ export class WebsocketService {
 
     this.socket.onclose = () => {
       this.isOn.set(false);
+      // Automatiaclly reconnecting
+      this.connect();
       console.log('WebSocket connection closed');
     };
   }

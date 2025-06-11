@@ -3,6 +3,7 @@ import {
   Component,
   OnInit,
   Output,
+  inject,
   OnChanges,
   EventEmitter,
   input,
@@ -10,15 +11,14 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { BehaviorSubject } from 'rxjs';
 
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
-import { FloorPlan } from '../../types/floorPlan';
-
-import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
+import { ImageDialogComponent } from '../dialog/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-floor-plan-switcher',
@@ -29,8 +29,11 @@ import { MOCK_FLOOR_PLAN_LIST } from '../../constants/floorPlan';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
+  private readonly dialog = inject(MatDialog);
+
   readonly options = input<FloorPlanServer[]>([]);
   readonly floorPlanControl = input.required<FormControl<FloorPlanServer | null>>();
+
   readonly selectedOption = output<FloorPlanServer>();
 
   readonly selectedOption$ = new BehaviorSubject<FloorPlanServer | null>(null);
@@ -55,5 +58,14 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
     this.selectedOption$.next(option);
     this.selectedOption.emit(option);
     this.selectedOptionEmit.emit(option);
+  }
+
+  // Actions:
+  open(imageUrl: string | undefined) {
+    this.dialog.open(ImageDialogComponent, {
+      data: {
+        imageUrl,
+      },
+    });
   }
 }

@@ -1,0 +1,12 @@
+@use '../../../../styles.scss' as global;
+
+:host {
+  .content {
+    background-color: global.$parmary-color;
+    padding: 1rem;
+
+    img {
+      border-radius: 1.25rem;
+    }
+  }
+}

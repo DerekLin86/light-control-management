@@ -11,5 +11,6 @@
 </form>
 
 @if (selectedOption$ | async) {
-  <img class="floor-plan-image" [src]="(selectedOption$ |  async)?.img">
+  @let imageUrl = (selectedOption$ |  async)?.img;
+  <img class="floor-plan-image" [src]="imageUrl" (click)="open(imageUrl)">
 }

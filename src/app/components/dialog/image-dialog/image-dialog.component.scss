@@ -1,6 +1,9 @@
 @use '../../../../styles.scss' as global;
 
 :host {
+  :ng-deep .mat-dialog-content {
+    overflow: scroll;
+  }
   .content {
     background-color: global.$parmary-color;
     padding: 1rem;

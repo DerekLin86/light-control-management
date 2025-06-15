@@ -66,6 +66,11 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
       data: {
         imageUrl,
       },
+      width: '80vw', // 80% of viewport width
+      height: 'auto', // or specify like '600px'
+      maxHeight: '90vh',
+      maxWidth: '90vw',
+      panelClass: 'floor-plan-image-dialog',
     });
   }
 }

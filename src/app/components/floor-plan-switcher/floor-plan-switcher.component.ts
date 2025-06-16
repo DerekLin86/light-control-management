@@ -5,6 +5,8 @@ import {
   Output,
   inject,
   OnChanges,
+  signal,
+  computed,
   EventEmitter,
   input,
   output,
@@ -36,7 +38,13 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
 
   readonly selectedOption = output<FloorPlanServer>();
 
-  readonly selectedOption$ = new BehaviorSubject<FloorPlanServer | null>(null);
+  // Signals
+  readonly selectedOptionSignal = signal<FloorPlanServer | null>(null);
+
+  // computed
+  readonly imageUrl = computed(() => {
+    return `url("${this.selectedOptionSignal()?.img}")`;
+  });
 
   @Output('onSelect')
   selectedOptionEmit = new EventEmitter<FloorPlanServer | null>();
@@ -55,7 +63,7 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
   }
 
   selectNewOption(option: FloorPlanServer) {
-    this.selectedOption$.next(option);
+    this.selectedOptionSignal.set(option);
     this.selectedOption.emit(option);
     this.selectedOptionEmit.emit(option);
   }

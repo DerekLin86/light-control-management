@@ -21,13 +21,10 @@
 
   .floor-plan-image {
     cursor: pointer;
-  }
-
-  img {
     height: calc(100% - 14rem);
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position-x: center;
     display: flex;
   }
 }

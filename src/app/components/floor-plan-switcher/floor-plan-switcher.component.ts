@@ -49,10 +49,7 @@ export class FloorPlanSwitcherComponent implements OnChanges, OnInit {
   @Output('onSelect')
   selectedOptionEmit = new EventEmitter<FloorPlanServer | null>();
 
-  ngOnInit() {
-    // For demo
-    // this.selectNewOption();
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['options']) {

@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   AfterViewInit,
   Component,
   ChangeDetectorRef,
@@ -182,6 +183,12 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
       });
   }
 
+  private flushCurrentZoneList() {
+    this.floorPlanService.fetchZoneStatus(this.currentFloorPlanId).subscribe(floorPlanRawData => {
+      this.floorRawData.set(floorPlanRawData);
+    });
+  }
+
   // Actions: Zone on off
   private flushZoneOnOff(message?: RECEIVE_MESSAGE) {
     if (!message) return;
@@ -206,6 +213,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   // Actions: bypass
   updateBypassStatus(updatedZoneData: Zone) {
+    // this.websocketService.updateBypassStatus(updatedZoneData);
 
     this.websocketService.updateBypassStatus(updatedZoneData);
 
@@ -219,11 +227,16 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
               bypassOccupancySensor: updatedZoneData.bypassOccupancySensor,
               bypassOccupancySensorAt: updatedZoneData.bypassOccupancySensorAt,
               bypassDaylightSensor: updatedZoneData.bypassDaylightSensor,
-              bypassDaylightSensorAt: updatedZoneData.bypassDaylightSensorAt
+              bypassDaylightSensorAt: updatedZoneData.bypassDaylightSensorAt,
             } as Zone)
           : zone;
       })
     );
+
+    setTimeout(() => {
+      this.flushCurrentZoneList();
+      // Currntly, we have timing problem to sync the server so I add the setTime first.
+    }, 1000);
   }
 
   private flushBypassStatus(message?: RECEIVE_MESSAGE) {
@@ -377,6 +390,10 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   // Getters
+
+  get currentFloorPlanId() {
+    return this.selectedFloorPlan.value?.id ?? 34;
+  }
 
   get currentBuildingId() {
     return this.selectedFloorPlan.value?.buildingId;

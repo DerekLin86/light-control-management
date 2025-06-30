@@ -105,18 +105,18 @@ export class GroupedTableComponent implements OnInit {
     const currentDate = new Date();
     const dateDiffPipe = new DateDiffPipe();
     if (zone.haveOCC && !zone.hasDaylight) {
-      return !!zone.bypassOccupancySensorAt && zone.bypassOccupancySensorAt.length > 0
+      return !!zone.bypassOccupancySensorAt
         ? dateDiffPipe.transform({
             start: new Date(zone.bypassOccupancySensorAt),
             end: currentDate,
           })
         : undefined;
     } else if (!zone.haveOCC && zone.hasDaylight) {
-      return !!zone.bypassDaylightSensorAt && zone.bypassDaylightSensorAt.length > 0
+      return !!zone.bypassDaylightSensorAt
         ? dateDiffPipe.transform({ start: new Date(zone.bypassDaylightSensorAt), end: currentDate })
         : undefined;
     } else {
-      return !!zone.bypassOccupancySensorAt && zone.bypassOccupancySensorAt.length > 0
+      return !!zone.bypassOccupancySensorAt
         ? dateDiffPipe.transform({
             start: new Date(zone.bypassOccupancySensorAt),
             end: currentDate,
@@ -134,9 +134,9 @@ export class GroupedTableComponent implements OnInit {
       bypassAll: status ? 1 : 0,
       bypassOccupancySensor: status ? 1 : 0,
       bypassDaylightSensor: status ? 1 : 0,
-      bypassAllAt: currentDate.toString(),
-      bypassOccupancySensorAt: currentDate.toString(),
-      bypassDaylightSensorAt: currentDate.toString(),
+      bypassAllAt: currentDate,
+      bypassOccupancySensorAt: currentDate,
+      bypassDaylightSensorAt: currentDate,
     };
 
     this.setZoneBypassAllSensorOutput.emit(request);

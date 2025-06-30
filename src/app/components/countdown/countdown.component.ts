@@ -3,12 +3,14 @@ import {
   Component,
   effect,
   signal,
+  computed,
   input,
   ChangeDetectorRef,
   inject,
 } from '@angular/core';
 
-import {TimeFormater} from '../../Pipes/date-diff.pipe'
+import { Zone } from '../../types/zone';
+import { TimeFormater } from '../../Pipes/date-diff.pipe';
 
 @Component({
   selector: 'app-countdown',
@@ -20,22 +22,38 @@ import {TimeFormater} from '../../Pipes/date-diff.pipe'
 export class CountdownComponent {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-  readonly initialSeconds = input.required<number>();
+  readonly zone = input.required<Zone | undefined>();
 
   // signals
   secondsLeft = signal<number>(0);
   readonly running = signal(false);
+
+  // computed
+  protected readonly countDownSec = computed(() => {
+    if (!this.zone) return 0;
+
+    if (this.zone()?.bypassAll === 0) {
+      return 0;
+    }
+
+    const result =
+      this.zone()?.bypassAllEscapeSec !== null && this.zone()?.bypassAllEscapeSec! !== 0
+        ? this.zone()?.bypassAllEscapeSec
+        : this.zone()?.bypassTimeout !== null
+          ? this.zone()?.bypassTimeout * 60
+          : 1;
+    return typeof result === 'number' ? result : 0;
+  });
 
   // Properties
   protected intervalId: any;
 
   constructor() {
     effect(() => {
-      this.secondsLeft.set(this.initialSeconds());
+      this.secondsLeft.set(this.countDownSec());
     });
-
     effect(() => {
-      if (this.initialSeconds() > 0) {
+      if (this.countDownSec() > 0) {
         this.running.set(true);
         this.startTimer();
       }
@@ -77,7 +95,7 @@ export class CountdownComponent {
 
   reset() {
     this.clearTimer();
-    this.secondsLeft.set(this.initialSeconds());
+    this.secondsLeft.set(this.countDownSec());
     this.running.set(false);
   }
 }

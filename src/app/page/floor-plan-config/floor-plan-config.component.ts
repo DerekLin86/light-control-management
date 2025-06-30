@@ -1,5 +1,4 @@
 import {
-  afterNextRender,
   AfterViewInit,
   Component,
   ChangeDetectorRef,
@@ -213,8 +212,6 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   // Actions: bypass
   updateBypassStatus(updatedZoneData: Zone) {
-    // this.websocketService.updateBypassStatus(updatedZoneData);
-
     this.websocketService.updateBypassStatus(updatedZoneData);
 
     this.floorRawData.update(currentZoneList =>
@@ -232,11 +229,6 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
           : zone;
       })
     );
-
-    setTimeout(() => {
-      this.flushCurrentZoneList();
-      // Currntly, we have timing problem to sync the server so I add the setTime first.
-    }, 1000);
   }
 
   private flushBypassStatus(message?: RECEIVE_MESSAGE) {

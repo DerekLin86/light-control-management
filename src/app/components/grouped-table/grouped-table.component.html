@@ -55,7 +55,7 @@
       <th mat-header-cell *matHeaderCellDef>Bypass Timer</th>
       <td mat-cell *matCellDef="let element">
         @if (element.bypassAll === 1 && (typeof element.bypassAllEscapeSec === 'number')) {
-          <app-countdown [initialSeconds]="element.bypassAllEscapeSec ?? 0"></app-countdown>
+          <app-countdown [zone]="element"></app-countdown>
         }
       </td>
     </ng-container>

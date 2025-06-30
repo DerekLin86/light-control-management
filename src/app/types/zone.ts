@@ -84,12 +84,12 @@ export interface Zone {
   haveOCC: 0 | 1;
   hasDaylight: 0 | 1;
   bypassAll: 0 | 1;
-  bypassAllAt?: string;
+  bypassAllAt?: Date;
   bypassAllEscapeSec?: number;
   bypassOccupancySensor?: 0 | 1;
-  bypassOccupancySensorAt?: string;
+  bypassOccupancySensorAt?: Date;
   bypassDaylightSensor: 0 | 1;
-  bypassDaylightSensorAt?: string;
+  bypassDaylightSensorAt?: Date;
   isCcmsZone?: 0 | 1;
   isOn?: 0 | 1;
   lightLevel?: any;

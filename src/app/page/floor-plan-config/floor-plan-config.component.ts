@@ -229,6 +229,10 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
           : zone;
       })
     );
+
+    setTimeout(() => {
+      this.flushCurrentZoneList();
+    }, 1000);
   }
 
   private flushBypassStatus(message?: RECEIVE_MESSAGE) {

@@ -32,17 +32,11 @@ export class CountdownComponent {
   protected readonly countDownSec = computed(() => {
     if (!this.zone) return 0;
 
-    if (this.zone()?.bypassAll === 0) {
-      return 0;
-    }
-
-    const result =
-      this.zone()?.bypassAllEscapeSec !== null && this.zone()?.bypassAllEscapeSec! !== 0
+    return (
+      this.zone()?.bypassAllEscapeSec !== null && this.zone()?.bypassAllEscapeSec! > 0
         ? this.zone()?.bypassAllEscapeSec
-        : this.zone()?.bypassTimeout !== null
-          ? this.zone()?.bypassTimeout * 60
-          : 1;
-    return typeof result === 'number' ? result : 0;
+        : 0
+    ) as number;
   });
 
   // Properties

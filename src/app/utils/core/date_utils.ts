@@ -1,24 +1,12 @@
 export function getCurrentDateString() {
   const today = new Date();
   const year = today.getFullYear();
-  const month = today.getMonth() + 1; // getMonth() is zero-based
-  const day = today.getDate();
+  const month = String(today.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+  const day = String(today.getDate()).padStart(2, '0');
 
-  let hours = today.getHours();
-  let minutes = today.getMinutes();
-  let seconds = today.getSeconds();
+  let hours = String(today.getHours()).padStart(2, '0');
+  let minutes = String(today.getMinutes()).padStart(2, '0');
+  let seconds = String(today.getSeconds()).padStart(2, '0');
 
-  return (
-    year +
-    '-' +
-    (month < 10 ? '0' + month : month) +
-    '-' +
-    day +
-    ' ' +
-    (hours < 10 ? '0' + hours : hours) +
-    ':' +
-    (minutes < 10 ? '0' + minutes : minutes) +
-    ':' +
-    (seconds < 10 ? '0' + seconds : seconds)
-  );
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }

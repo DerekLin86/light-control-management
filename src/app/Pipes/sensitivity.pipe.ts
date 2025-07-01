@@ -8,6 +8,6 @@ import { SENSITIVITY_DISPLAY_NAME_MAP } from '../constants/sensitivity';
 })
 export class SensitivityToDisplayNamePipes implements PipeTransform {
   transform(value: Sensitivity): string {
-    return SENSITIVITY_DISPLAY_NAME_MAP.get(value) ?? '';
+    return SENSITIVITY_DISPLAY_NAME_MAP.get(value - 1) ?? '';
   }
 }

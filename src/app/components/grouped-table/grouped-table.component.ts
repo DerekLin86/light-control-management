@@ -5,6 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Zone } from '../../types/zone';
 import { DateDiffPipe } from '../../Pipes/date-diff.pipe';
+import { getCurrentDateString } from '../../utils/core/date_utils';
 import { DeviceTypeToDisplayNamePipes } from '../../Pipes/device_type_pipes.pipe';
 import { ScheduleStatusComponent } from '../schedule-status/schedule-status.component';
 import { ZoneStatusComponent } from '../zone-status/zone-status.component';
@@ -128,7 +129,8 @@ export class GroupedTableComponent implements OnInit {
   // Actions
 
   toggleBypassStatus(status: boolean, zone: Zone) {
-    const currentDate = new Date();
+    const currentDate = getCurrentDateString();
+
     const request: Zone = {
       ...zone,
       bypassAll: status ? 1 : 0,

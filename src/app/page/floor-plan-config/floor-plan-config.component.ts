@@ -78,6 +78,20 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
         this.websocketService.zoneBypassDaylightSensorStatusListensor()
       );
     });
+
+    effect(() => {
+      this.flushOccSensorEnableStatus(this.websocketService.zoneOccSensorEanbleStatusListensor());
+    });
+
+    effect(() => {
+      this.flushDaylightSensorEnableStatus(
+        this.websocketService.zoneDaylightSensorEnableStatusListensor()
+      );
+    });
+
+    effect(() => {
+      this.flushZoneCcmsControlStatus(this.websocketService.zoneCcmsControlStatusListensor());
+    });
   }
 
   ngOnInit(): void {
@@ -305,6 +319,25 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     });
   }
 
+  flushZoneCcmsControlStatus(message: RECEIVE_MESSAGE | undefined) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    const zoneData = JSON.parse(message.jsonString);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              CcmsControlStatus: Number(message.value),
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
   private flushLightLevelStatus(message: RECEIVE_MESSAGE | undefined) {
     if (!message) return;
 
@@ -359,10 +392,48 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     );
   }
 
+  private flushOccSensorEnableStatus(message: RECEIVE_MESSAGE | undefined) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    const zoneData = JSON.parse(message.jsonString);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              OccSensorEnable: Number(message.value),
+            } as Zone)
+          : zone;
+      })
+    );
+  }
+
   // Actions: Daylight
 
   updateDaylightSensorEnable(updateZoneData: Zone) {
     this.websocketService.updateZoneDaylightSensorEnable(updateZoneData);
+  }
+
+  flushDaylightSensorEnableStatus(message: RECEIVE_MESSAGE | undefined) {
+    if (!message) return;
+
+    if (Number(message.buildingId) !== Number(this.currentBuildingId)) return;
+
+    const zoneData = JSON.parse(message.jsonString);
+
+    this.floorRawData.update(currentZoneList =>
+      currentZoneList.map(zone => {
+        return Number(zone.zoneId) === Number(message.zoneId)
+          ? ({
+              ...zone,
+              DaylightSensorEnable: Number(message.value),
+            } as Zone)
+          : zone;
+      })
+    );
   }
 
   // Actions: Occupied

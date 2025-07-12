@@ -215,7 +215,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
         return Number(zone.zoneId) === Number(message.zoneId)
           ? ({
               ...zone,
-              isOn: zoneData.isOn,
+              isOn: Number(message.value) === 1 ? 1 : 0,
               lightLevel: zoneData.lightLevel,
               lastUpdate: getCurrentDateString(),
             } as Zone)

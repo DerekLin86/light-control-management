@@ -7,7 +7,7 @@ import { Building } from '../types/building';
 import { FloorPlanData } from '../types/floorPlan';
 import { FloorPlan as FloorPlanServerSide } from '../types/floorPlan-service';
 
-import { SERVICE_ADDRESS } from '../constants/servers';
+import { SERVICE_ADDRESS } from '../../assets/configs/servers';
 import { API_TYPE, API_MAPPOING } from '../constants/api';
 import { MOCK_LIGHT_DATA } from '../constants/floorPlan';
 import { Zone, ServerZone } from '../types/zone';

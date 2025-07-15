@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http'
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Building } from '../types/building';
 import { FloorPlanData } from '../types/floorPlan';
 import { FloorPlan as FloorPlanServerSide } from '../types/floorPlan-service';
 

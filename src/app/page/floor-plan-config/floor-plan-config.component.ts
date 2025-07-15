@@ -15,10 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, startWith, first, map, switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
+import { DEFAULT_BUILD_ID } from '../../../assets/configs/servers';
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
-import { MOCK_ZONE_DATA } from '../../constants/floorPlan';
 import { WebsocketService, RECEIVE_MESSAGE } from '../../services/websocket.service';
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
 import { getCurrentDateString } from '../../utils/core/date_utils';
@@ -148,18 +148,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
         map(floorPlan => normalizeFloorPlanData(floorPlan))
       )
       .subscribe((floorPlanList: FloorPlanServer[]) => {
-        this.floorPlanList$.next([
-          ...floorPlanList,
-          {
-            buildingId: 999,
-            color: 'white',
-            description: 'sample',
-            id: 999,
-            img: '',
-            name: 'sample',
-            sorting: 999,
-          },
-        ]);
+        this.floorPlanList$.next(floorPlanList);
         this.initializeFloorPlanFromRoute();
       });
   }
@@ -184,11 +173,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     this.selectedFloorPlan.valueChanges
       .pipe(
         switchMap(selectedFloorPlan => {
-          if (selectedFloorPlan?.id === 999) {
-            return of(MOCK_ZONE_DATA);
-          } else {
-            return this.floorPlanService.fetchZoneStatus(selectedFloorPlan?.id ?? 34);
-          }
+          return this.floorPlanService.fetchZoneStatus(selectedFloorPlan?.id ?? DEFAULT_BUILD_ID);
         })
       )
       .subscribe((floorPlanRawData: Zone[]) => {
@@ -459,7 +444,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   // Getters
 
   get currentFloorPlanId() {
-    return this.selectedFloorPlan.value?.id ?? 34;
+    return this.selectedFloorPlan.value?.id ?? DEFAULT_BUILD_ID;
   }
 
   get currentBuildingId() {

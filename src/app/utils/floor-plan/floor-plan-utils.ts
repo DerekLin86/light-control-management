@@ -1,12 +1,12 @@
 import { FloorPlan as FloorPlanServer } from '../../types/floorPlan-service';
-import { SERVICE_ADDRESS } from '../../constants/servers';
+import { environment } from '../../../environments/environment';
 
 export function normalizeFloorPlanData(floorPlanList: FloorPlanServer[]) {
   return floorPlanList
     .map(floorPlan => {
       return {
         ...floorPlan,
-        img: `${SERVICE_ADDRESS}/Photos/Floors/${floorPlan.img}`,
+        img: `${environment.SERVICE_ADDRESS}/Photos/Floors/${floorPlan.img}`,
       };
     })
     .sort((pre, cur) => pre.sorting - cur.sorting);

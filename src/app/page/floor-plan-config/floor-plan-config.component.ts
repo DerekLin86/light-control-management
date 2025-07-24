@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, startWith, first, map, switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
-import { DEFAULT_BUILD_ID } from '../../../assets/configs/servers';
+import { environment } from '../../../environments/environment';
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
@@ -173,7 +173,9 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
     this.selectedFloorPlan.valueChanges
       .pipe(
         switchMap(selectedFloorPlan => {
-          return this.floorPlanService.fetchZoneStatus(selectedFloorPlan?.id ?? DEFAULT_BUILD_ID);
+          return this.floorPlanService.fetchZoneStatus(
+            selectedFloorPlan?.id ?? environment.DEFAULT_BUILD_ID
+          );
         })
       )
       .subscribe((floorPlanRawData: Zone[]) => {
@@ -444,7 +446,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   // Getters
 
   get currentFloorPlanId() {
-    return this.selectedFloorPlan.value?.id ?? DEFAULT_BUILD_ID;
+    return this.selectedFloorPlan.value?.id ?? environment.DEFAULT_BUILD_ID;
   }
 
   get currentBuildingId() {

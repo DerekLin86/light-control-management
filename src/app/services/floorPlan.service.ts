@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { FloorPlanData } from '../types/floorPlan';
 import { FloorPlan as FloorPlanServerSide } from '../types/floorPlan-service';
 
-import { SERVICE_ADDRESS } from '../../assets/configs/servers';
+import { environment } from '../../environments/environment';
 import { API_TYPE, API_MAPPOING } from '../constants/api';
 import { MOCK_LIGHT_DATA } from '../constants/floorPlan';
 import { Zone, ServerZone } from '../types/zone';
@@ -21,7 +21,7 @@ export class FloorPlanService {
 
   fetchFloorPlanList(buildId: string = '4') {
     return this.client.get(
-      `${SERVICE_ADDRESS}/${API_MAPPOING.get(API_TYPE.FETCH_FLOOR_PLAN)}/${buildId}`
+      `${environment.SERVICE_ADDRESS}/${API_MAPPOING.get(API_TYPE.FETCH_FLOOR_PLAN)}/${buildId}`
     ) as Observable<FloorPlanServerSide[]>;
   }
 
@@ -32,7 +32,7 @@ export class FloorPlanService {
   fetchZoneStatus(floorId: number) {
     return (
       this.client.get(
-        `${SERVICE_ADDRESS}/${API_MAPPOING.get(API_TYPE.FETCH_ZONE_DATA)}/${floorId}`
+        `${environment.SERVICE_ADDRESS}/${API_MAPPOING.get(API_TYPE.FETCH_ZONE_DATA)}/${floorId}`
       ) as Observable<ServerZone[]>
     ).pipe(
       map((zoneData: ServerZone[]) => {

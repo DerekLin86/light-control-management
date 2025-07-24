@@ -1,5 +1,5 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-import { WEBSOCKET_ADDRESS } from '../../assets/configs/servers';
+import { environment } from '../../environments/environment';
 import { Zone } from '../types/zone';
 
 export interface RECEIVE_MESSAGE {
@@ -48,7 +48,7 @@ export interface CMD {
   providedIn: 'root',
 })
 export class WebsocketService {
-  protected readonly URL = WEBSOCKET_ADDRESS;
+  protected readonly URL = environment.WEBSOCKET_ADDRESS;
 
   readonly isOn = signal<boolean>(false);
 

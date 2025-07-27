@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, startWith, first, map, switchMap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
-import { environment } from '../../../environments/environment';
+import { AppConfigService } from '../../services/appConfig.service';
 import { FloorPlanService } from '../../services/floorPlan.service';
 import { GroupedTableComponent } from '../../components/grouped-table/grouped-table.component';
 import { FloorPlanSwitcherComponent } from '../../components/floor-plan-switcher/floor-plan-switcher.component';
@@ -37,6 +37,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   private readonly router = inject(Router);
   private readonly websocketService = inject(WebsocketService);
   private readonly changeDetectionRef = inject(ChangeDetectorRef);
+  private readonly appConfigService = inject(AppConfigService);
 
   readonly selectedFloorPlan = new FormControl<FloorPlanServer | null>(null);
 
@@ -174,7 +175,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
       .pipe(
         switchMap(selectedFloorPlan => {
           return this.floorPlanService.fetchZoneStatus(
-            selectedFloorPlan?.id ?? environment.DEFAULT_BUILD_ID
+            selectedFloorPlan?.id ?? this.appConfigService.defaultBuildId!
           );
         })
       )
@@ -446,7 +447,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
   // Getters
 
   get currentFloorPlanId() {
-    return this.selectedFloorPlan.value?.id ?? environment.DEFAULT_BUILD_ID;
+    return this.selectedFloorPlan.value?.id ?? this.appConfigService.defaultBuildId!;
   }
 
   get currentBuildingId() {

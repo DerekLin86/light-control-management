@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { LeftBarComponent } from './layout/left-bar/left-bar.component';
 import { HeaderComponent } from './layout/header/header.component';
 
-import {HeaderService} from './services/header.service';
+import { HeaderService } from './services/header.service';
 
 import { convertRouterPathToPageName } from './utils/core/page-name-utils';
 

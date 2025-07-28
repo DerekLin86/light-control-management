@@ -143,7 +143,7 @@ export class FloorPlanConfigComponent implements AfterViewInit, OnInit, OnDestro
 
   private fetchFloorPlanList() {
     this.floorPlanService
-      .fetchFloorPlanList()
+      .fetchFloorPlanList(this.appConfigService.defaultBuildId?.toString())
       .pipe(
         first(),
         map(floorPlan => normalizeFloorPlanData(floorPlan))
